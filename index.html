@@ -64,7 +64,8 @@
         ledge.body.immovable = true;
 
         // The player and its settings
-        player = game.add.sprite(32, game.world.height - 150, 'dude');
+        player = game.add.sprite(32, game.world.height - 200, 'dude');
+        player.scale.setTo(2,2);
 
         //  We need to enable physics on the player
         game.physics.arcade.enable(player);
@@ -136,7 +137,7 @@
             //  Stand still
             player.animations.stop();
 
-            player.frame = 4;
+            player.frame = 0;
         }
 
         //  Allow the player to jump if they are touching the ground.
