@@ -8,14 +8,7 @@
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update },  null, false, false);
 
-var player;
-var devil;
-var platforms;
-var cursors;
-var key_q,i;
-var stars;
-var score = 0;
-var scoreText, adler_weapon;
+var player, devil, platforms, cursors, key_q,i, stars, score = 0, scoreText, adler_weapon;
 
 function collectStar (player, star) {
     star.kill();
@@ -24,9 +17,11 @@ function collectStar (player, star) {
 }
 
 function gofull() {
-    if (game.scale.isFullScreen) {
-        game.scale.stopFullScreen();
-    }else{
-        game.scale.startFullScreen(false);
-    }
+    if (game.scale.isFullScreen) game.scale.stopFullScreen();
+    else game.scale.startFullScreen(false);
+}
+
+function rabbitDragged() {
+    if (this.client.connected)
+        this.client.ws.send(JSON.stringify({x: sprite.x, y: sprite.y}));
 }

@@ -6,6 +6,7 @@ var concat = require('gulp-concat');
 gulp.task('concat_uglify', function(cb) {
     gulp.src([
         'js/phaser.js',
+        'js/client.js',
         'js/create.js',
         'js/preload.js',
         'js/update.js',

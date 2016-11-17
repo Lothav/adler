@@ -65,11 +65,22 @@ function create() {
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
     game.scale.pageAlignVertically = true;
     game.scale.pageAlignHorizontally = true;
-    game.input.onDown.add(gofull, this);
+    //game.input.onDown.add(gofull, this);
 
     /* Adler Weapon set */
     adler_weapon = this.add.weapon(10, 'adler_weapon');
     adler_weapon.bulletSpeed = 500;
     adler_weapon.fireRate = 500;
     adler_weapon.fireAngle = 0;
+
+
+    /* Client Web Socket */
+    this.client = new Client();
+    this.client.openConnection();
+    myText = game.add.text(0, 0, "started (not yet connected)", { font: "14px Arial", fill: "#ff0044"});
+    sprite = game.add.sprite(100, 100, "rabbit");
+    sprite.inputEnabled = true;
+    sprite.input.enableDrag(false, true);
+    sprite.events.onDragStop.add(rabbitDragged, this);
+    game.stage.disableVisibilityChange = true;
 }
