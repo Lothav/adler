@@ -64,6 +64,10 @@ function create() {
     cursors = game.input.keyboard.createCursorKeys();
     key_q = game.input.keyboard.addKey(Phaser.KeyCode.Q);
 
+    /* Screen Set */
+    game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.pageAlignVertically = true;
+    game.scale.pageAlignHorizontally = true;
     game.input.onDown.add(gofull, this);
 
 }
