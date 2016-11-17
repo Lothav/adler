@@ -18,9 +18,8 @@ function create() {
 
     for(i = 0; i < 10; i++)
         platforms.create(
-            Math.round(Math.random()*3*800), 64 + Math.round(Math.random()*600), 'ground').body.immovable = true;
-
-
+            Math.round(Math.random()*3*(80)*i) + (3*80*i),
+            64 + Math.round(Math.random()*600), 'ground').body.immovable = true;
 
     player = game.add.sprite(800, game.world.height - 200, 'adler');
     player.scale.setTo(2,2);
@@ -68,8 +67,9 @@ function create() {
     game.scale.pageAlignHorizontally = true;
     game.input.onDown.add(gofull, this);
 
+    /* Adler Weapon set */
     adler_weapon = this.add.weapon(10, 'adler_weapon');
     adler_weapon.bulletSpeed = 500;
     adler_weapon.fireRate = 500;
-
+    adler_weapon.fireAngle = 0;
 }
