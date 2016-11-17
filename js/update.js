@@ -1,7 +1,7 @@
 function update() {
 
     //  Collide the player and the stars with the platforms
-    game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide([player, devil], platforms);
     game.physics.arcade.collide(stars, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
@@ -16,6 +16,8 @@ function update() {
         player.body.velocity.x = -150;
 
         player.animations.play('left');
+        devil.animations.play('left');
+
     }
     else if (cursors.right.isDown)
     {
@@ -23,6 +25,8 @@ function update() {
         player.body.velocity.x = 150;
 
         player.animations.play('right');
+        devil.animations.play('right');
+
     }
     else
     {
