@@ -68,7 +68,11 @@ function create() {
     //game.input.onDown.add(gofull, this);
 
     /* Adler Weapon set */
-    adler_weapon = this.add.weapon(10, 'adler_weapon');
+    adler_weapon = this.add.weapon(10, 'adler_weapon_projectile');
+    adler_weapon.addBulletAnimation("explode", [5,6,7,8,9,10,11,12,13]);
+    adler_weapon.addBulletAnimation("fire", [0,1,2,3,4], 10, true);
+    adler_weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+
     adler_weapon.bulletSpeed = 500;
     adler_weapon.fireRate = 500;
     adler_weapon.fireAngle = 0;

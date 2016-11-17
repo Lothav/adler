@@ -1,24 +1,24 @@
 function update() {
 
-    //  Collide the player and the stars with the platforms
     game.physics.arcade.collide([adler_weapon.bullets,player, devil], platforms);
     //game.physics.arcade.collide(stars, platforms);
-
     game.physics.arcade.overlap( player, devil, function(){
        // game.state.restart();
     });
-
-    game.physics.arcade.overlap( devil, adler_weapon.bullets, function(player, bullet){
+    game.physics.arcade.overlap(adler_weapon.bullets, devil, function(devil, bullet){
+        bullet.frame = 14;//animationName = 'explode';
         setTimeout(function(){
             bullet.kill();
-        },100);
+            adler_weapon.bulletAnimation = 'fire';
+        },1800);
+    });
+
+    game.physics.arcade.collide( devil, adler_weapon.bullets, function(player, bullet){
+        //@TODO change colision bullet
     });
 
     game.camera.follow(player);
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
-
-    //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
 
     if(player.frame == 2 && player.key == 'adler_hit'){

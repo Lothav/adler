@@ -7,7 +7,7 @@ function preload() {
 
     game.load.spritesheet('adler', 'assets/adler.png', 48, 48);
     game.load.spritesheet('adler_hit', 'assets/adler_hit.png', 48, 48);
-    game.load.spritesheet('adler_weapon', 'assets/coco_bullet.png', 21, 18);
+    game.load.spritesheet('adler_weapon_projectile', 'assets/adler_weapon_projectile.png', 20, 20);
 
     game.load.spritesheet('devil', 'assets/devil.png', 64, 64);
 }
