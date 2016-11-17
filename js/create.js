@@ -20,9 +20,6 @@ function create() {
     ledge = platforms.create(-150, 250, 'ground');
     ledge.body.immovable = true;
 
-
-
-
     player = game.add.sprite(32, game.world.height - 200, 'adler');
     player.scale.setTo(2,2);
 
@@ -40,11 +37,14 @@ function create() {
     devil.body.bounce.y = 0.2;
     devil.body.gravity.y = 300;
     devil.body.collideWorldBounds = true;
+    devil.anchor.setTo(.5,.5);
+
 
     player.animations.add('anim', null, 10, true);
     console.log(player.animations);
 
     devil.animations.add('anim',null, 5, true);
+    devil.animations.play('anim');
 
     stars = game.add.group();
 
