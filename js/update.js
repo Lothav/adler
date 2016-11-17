@@ -40,7 +40,7 @@ function update() {
         }
         player.body.velocity.x = -150;
         adler_weapon.fireAngle = 180;
-        devil.animations.play('anim');
+        player.animations.play('anim');
     } else if (cursors.right.isDown) {
         /*  Move to the right */
         player.body.velocity.x = 150;
@@ -49,7 +49,6 @@ function update() {
         }
         adler_weapon.fireAngle = 0;
         player.animations.play('anim');
-        devil.animations.play('anim');
     } else {
         if(!key_q.isDown && (player.key != 'adler_hit') ) {
             player.animations.stop();
