@@ -4,7 +4,7 @@ var player;
 var devil;
 var platforms;
 var cursors;
-
+var key_q;
 var stars;
 var score = 0;
 var scoreText;

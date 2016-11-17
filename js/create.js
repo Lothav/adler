@@ -20,27 +20,33 @@ function create() {
     ledge = platforms.create(-150, 250, 'ground');
     ledge.body.immovable = true;
 
+
+
+
     player = game.add.sprite(32, game.world.height - 200, 'adler');
     player.scale.setTo(2,2);
+
     devil = game.add.sprite(64, game.world.height - 250, 'devil');
     devil.scale.setTo(2,2);
+
     game.physics.arcade.enable([player,devil]);
 
     player.body.bounce.y = 0.2;
-    player.body.gravity.y = 300;
+    player.body.gravity.y = 800;
     player.body.collideWorldBounds = true;
+    player.anchor.setTo(.5,.5);
 
 
     devil.body.bounce.y = 0.2;
     devil.body.gravity.y = 300;
     devil.body.collideWorldBounds = true;
 
-    player.animations.add('left', [0, 1, 2, 3, 4], 10, true);
-    player.animations.add('right', [0, 1, 2, 3, 4], 10, true);
+    player.animations.add('left', null, 10, true);
+    player.animations.add('right', null, 10, true);
+    console.log(player.animations);
 
-
-    devil.animations.add('left', [0,1,2,3,4,5,6,7,8,9,10,11]);
-    devil.animations.add('right', [0,1,2,3,4,5,6,7,8,9,10,11]);
+    devil.animations.add('left', null, 5, true);
+    devil.animations.add('right',null, 5, true);
 
     stars = game.add.group();
 
@@ -58,4 +64,6 @@ function create() {
     scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
     cursors = game.input.keyboard.createCursorKeys();
+    key_q = game.input.keyboard.addKey(Phaser.KeyCode.Q);
+
 }
