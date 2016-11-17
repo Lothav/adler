@@ -15,7 +15,7 @@ var cursors;
 var key_q,i;
 var stars;
 var score = 0;
-var scoreText;
+var scoreText, adler_weapon;
 
 function collectStar (player, star) {
     star.kill();

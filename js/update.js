@@ -11,16 +11,17 @@ function update() {
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
 
+    if(player.frame == 2 && player.key == 'adler_hit'){
+        adler_weapon.fireFrom.centerOn(player.x, player.y+10);
+        adler_weapon.fire();
+    }
+
     if(key_q.isDown){
         if(player.key == 'adler'){
             player.loadTexture('adler_hit');
         }
         player.animations.frameRate = 120;
         player.animations.play('anim');
-    } else {
-        if(player.key == 'adler_hit') {
-            player.loadTexture('adler');
-        }
     }
     if (cursors.left.isDown) {
         /*  Move to the left */
@@ -28,8 +29,7 @@ function update() {
             player.scale.x *= -1;
         }
         player.body.velocity.x = -150;
-
-        player.animations.play('anim');
+        adler_weapon.fireAngle = 180;
         devil.animations.play('anim');
     } else if (cursors.right.isDown) {
         /*  Move to the right */
@@ -37,10 +37,11 @@ function update() {
         if(player.scale.x < 0){
             player.scale.x *= -1;
         }
+        adler_weapon.fireAngle = 0;
         player.animations.play('anim');
         devil.animations.play('anim');
     } else {
-        if(!key_q.isDown) {
+        if(!key_q.isDown && (player.key != 'adler_hit') ) {
             player.animations.stop();
             player.frame = 0;
         }

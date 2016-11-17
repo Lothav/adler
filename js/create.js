@@ -1,8 +1,8 @@
 function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
-
     game.world.setBounds(0, 0, 800*3, 600);
+
     for(i = 0; i < 3; i++){
         game.add.sprite(i*800, 0, 'sky');
     }
@@ -22,7 +22,7 @@ function create() {
 
 
 
-    player = game.add.sprite(32, game.world.height - 200, 'adler');
+    player = game.add.sprite(800, game.world.height - 200, 'adler');
     player.scale.setTo(2,2);
 
     devil = game.add.sprite(64, game.world.height - 250, 'devil');
@@ -40,7 +40,12 @@ function create() {
     devil.body.collideWorldBounds = true;
     devil.anchor.setTo(.5,.5);
 
-    player.animations.add('anim', null, 10, true);
+    player.animations.add('anim', null, 10)
+        .onComplete.add(function(){
+        if(player.key == 'adler_hit') {
+            player.loadTexture('adler');
+        }
+    }, this);
 
     devil.animations.add('anim',null, 5, true);
     devil.animations.play('anim');
@@ -62,5 +67,9 @@ function create() {
     game.scale.pageAlignVertically = true;
     game.scale.pageAlignHorizontally = true;
     game.input.onDown.add(gofull, this);
+
+    adler_weapon = this.add.weapon(10, 'adler_weapon');
+    adler_weapon.bulletSpeed = 500;
+    adler_weapon.fireRate = 500;
 
 }
