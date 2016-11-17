@@ -4,6 +4,7 @@ function update() {
     game.physics.arcade.collide([player, devil], platforms);
     game.physics.arcade.collide(stars, platforms);
 
+    game.camera.follow(player);
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
 
