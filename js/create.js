@@ -41,12 +41,10 @@ function create() {
     devil.body.gravity.y = 300;
     devil.body.collideWorldBounds = true;
 
-    player.animations.add('left', null, 10, true);
-    player.animations.add('right', null, 10, true);
+    player.animations.add('anim', null, 10, true);
     console.log(player.animations);
 
-    devil.animations.add('left', null, 5, true);
-    devil.animations.add('right',null, 5, true);
+    devil.animations.add('anim',null, 5, true);
 
     stars = game.add.group();
 
@@ -65,5 +63,7 @@ function create() {
 
     cursors = game.input.keyboard.createCursorKeys();
     key_q = game.input.keyboard.addKey(Phaser.KeyCode.Q);
+
+    game.input.onDown.add(gofull, this);
 
 }

@@ -10,20 +10,16 @@ function update() {
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
 
-
-    console.log(player.frame);
-
     if(key_q.isDown){
         if(player.key == 'adler'){
             player.loadTexture('adler_hit');
         }
         player.animations.frameRate = 120;
-        player.animations.play('left');
+        player.animations.play('anim');
     } else {
         if(player.key == 'adler_hit') {
             player.loadTexture('adler');
-        }else{
-
+        } else {
             if (cursors.left.isDown) {
                 //  Move to the left
                 if(player.scale.x > 0){
@@ -31,33 +27,26 @@ function update() {
                 }
                 player.body.velocity.x = -150;
 
-                player.animations.play('left');
-                devil.animations.play('left');
-
+                player.animations.play('anim');
+                devil.animations.play('anim');
             } else if (cursors.right.isDown) {
                 //  Move to the right
                 player.body.velocity.x = 150;
-
                 if(player.scale.x < 0){
                     player.scale.x *= -1;
                 }
-
-                player.animations.play('right');
-                devil.animations.play('right');
+                player.animations.play('anim');
+                devil.animations.play('anim');
             } else {
                 //  Stand still
                 player.animations.stop();
-
                 player.frame = 0;
             }
-
         }
     }
 
-
     //  Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down)
-    {
+    if (cursors.up.isDown && player.body.touching.down) {
         player.body.velocity.y = -500;
     }
 
