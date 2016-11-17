@@ -76,4 +76,12 @@ function update() {
     if (cursors.up.isDown && player.body.touching.down) {
         player.body.velocity.y = -500;
     }
+
+
+
+
+
+
+    if (this.client.connected)
+        this.client.ws.send(JSON.stringify({ id: id, x: player.x, y: player.y  }));
 }
