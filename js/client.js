@@ -25,32 +25,48 @@ Client.prototype.onMessage = function(message) {
 
     if(undefined !== msg.players && null !== id){
         myText.setText("Players on: "+ msg.players.length);
+
+        for(var i in multi_players){
+            multi_players[i].changed = false;
+        }
+
         msg.players.forEach( function( player ){
             if( player.id != id){
                 if( !loaded_ids.includes(player.id) ){
                     multi_players.push({
-                        player: game.add.sprite(player.x, player.y, 'adler'),
                         id: player.id,
+                        player: game.add.sprite(player.x, player.y, 'adler'),
                         text: game.add.text( player.x, player.y - 50, player.name,
-                            { font: "14px Arial", fill: "#ff0044"})
-                });
+                            { font: "14px Arial", fill: "#ff0044"}),
+                        changed: true
+                    });
                     multi_players[multi_players.length-1].player.scale.setTo(2, 2);
                     multi_players[multi_players.length-1].player.anchor.setTo(.5,.5);
 
                     multi_players[multi_players.length-1].text.anchor.setTo(.5,.5);
                     loaded_ids.push(player.id);
                 }else{
-                    for(var i in multi_players){
-                        if(multi_players.hasOwnProperty(i) && multi_players[i].id == player.id){
+                    for( i in multi_players ){
+                        if(multi_players.hasOwnProperty(i) && multi_players[i].id == player.id) {
                             multi_players[i].text.x = player.x;
                             multi_players[i].text.y = player.y -50;
                             multi_players[i].player.x = player.x;
                             multi_players[i].player.y = player.y;
+                            multi_players[i].changed = true;
                         }
                     }
+
                 }
             }
         });
+        for( i in multi_players ){
+            if(multi_players.hasOwnProperty(i) && !multi_players[i].changed) {
+                multi_players[i].player.kill();
+                multi_players[i].text.destroy();
+                loaded_ids.splice(loaded_ids.indexOf(multi_players[i].id), 1);
+                multi_players.splice(i, 1);
+            }
+        }
     }
 };
 
