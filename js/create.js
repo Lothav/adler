@@ -19,7 +19,7 @@ function create() {
     player = game.add.sprite(800, game.world.height - 200, 'adler');
     player.scale.setTo(2,2);
     
-    devil = game.add.sprite(64, game.world.height - 250, 'devil');
+    devil = game.add.sprite(64, 500, 'devil');
     devil.scale.setTo(2,2);
 
     game.physics.arcade.enable([player,devil]);

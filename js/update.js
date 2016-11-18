@@ -4,7 +4,6 @@ function update() {
 
 
     game.physics.arcade.collide([adler_weapon.bullets,player, devil], platforms);
-    //game.physics.arcade.collide(stars, platforms);
     game.physics.arcade.overlap( player, devil, function(){
         // game.state.restart();
     });
