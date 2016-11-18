@@ -18,11 +18,8 @@ function create() {
 
     player = game.add.sprite(800, game.world.height - 200, 'adler');
     player.scale.setTo(2,2);
-    
-    devil = game.add.sprite(64, 500, 'devil');
-    devil.scale.setTo(2,2);
-
-    game.physics.arcade.enable([player,devil]);
+   
+    game.physics.arcade.enable(player);
 
     player.body.bounce.y = 0.2;
     player.body.gravity.y = 800;
@@ -31,10 +28,6 @@ function create() {
     player_name = game.add.text( player.x, player.y - 50, "Adlerito", { font: "14px Arial", fill: "#ff0044"});
     player_name.anchor.setTo(.5,.5);
 
-    devil.body.bounce.y = 0.2;
-    devil.body.gravity.y = 300;
-    devil.body.collideWorldBounds = true;
-    devil.anchor.setTo(.5,.5);
 
     player.animations.add('anim', null, 10)
         .onComplete.add(function(){
@@ -42,9 +35,6 @@ function create() {
             player.loadTexture('adler');
         }
     }, this);
-
-    devil.animations.add('anim',null, 5, true);
-    devil.animations.play('anim');
     
     /* Keyboard keys */
     cursors = game.input.keyboard.createCursorKeys();
@@ -58,6 +48,7 @@ function create() {
 
     /* Adler Weapon set */
     adler_weapon = this.add.weapon(10, 'adler_weapon_projectile');
+    adler_weapon.z = 20;
     adler_weapon.addBulletAnimation("explode", [5,6,7,8,9,10,11,12,13]);
 
     adler_weapon.bullets.children.forEach(function(bullet){

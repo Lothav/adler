@@ -4,7 +4,7 @@ Client.prototype.openConnection = function() {
 
     name = prompt("Digite um nome:", "Adlerito");
 
-    this.ws = new WebSocket("ws://luizotavioapi.herokuapp.com");
+    this.ws = new WebSocket("ws://localhost:3000");
     this.connected = false;
     this.ws.onmessage = this.onMessage.bind(this);
     this.ws.onerror = this.displayError.bind(this);
@@ -18,8 +18,20 @@ Client.prototype.connectionOpen = function() {
     this.ws.send( JSON.stringify({ name: name }) );
 };
 
+var anim_count = 0;
 Client.prototype.onMessage = function(message) {
     var msg = JSON.parse(message.data);
+
+    if(msg.devil !== undefined){
+       // console.log(msg.devil);
+        if(devil === undefined)
+            addDevil(msg.devil);
+        else{
+            devil.x = msg.devil.x;
+           // devil.y = msg.devil.y;
+        }
+    }
+
     if(msg.id !== undefined){
         id = msg.id;
     }
@@ -50,9 +62,10 @@ Client.prototype.onMessage = function(message) {
                     for( i in multi_players ){
                         if( multi_players.hasOwnProperty(i) && multi_players[i].id == p.id ){
 
-                            console.log(p.x != multi_players[i].player.x );
+                            console.log(p.x , i);
                             /*  Multi Players animation  */
                             if( p.x != multi_players[i].player.x ) {
+                                anim_count = 0;
                                 if( p.x < multi_players[i].player.x ){
                                     /*  Move to the left */
                                     if(multi_players[i].player.scale.x > 0){
@@ -68,8 +81,11 @@ Client.prototype.onMessage = function(message) {
                                 multi_players[i].player.x = p.x;
                                 multi_players[i].text.x = p.x;
                             } else {
-                                multi_players[i].player.animations.stop();
-                                multi_players[i].player.frame = 0;
+                                anim_count++;
+                                if(anim_count ==10){
+                                    multi_players[i].player.animations.stop();
+                                    multi_players[i].player.frame = 0;
+                                }
                             }
 
                             multi_players[i].text.y = p.y -50;

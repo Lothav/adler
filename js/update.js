@@ -1,9 +1,6 @@
 function update() {
 
-    var has_to_update = false;
-
-
-    game.physics.arcade.collide([adler_weapon.bullets,player, devil], platforms);
+    game.physics.arcade.collide([adler_weapon.bullets, player, devil], platforms);
     game.physics.arcade.overlap( player, devil, function(){
         // game.state.restart();
     });
@@ -25,7 +22,6 @@ function update() {
     }
 
     if(key_q.isDown){
-        has_to_update = true;
         if(player.key == 'adler'){
             player.loadTexture('adler_hit');
         }
@@ -33,7 +29,6 @@ function update() {
         player.animations.play('anim');
     }
     if (cursors.left.isDown) {
-        has_to_update = true;
         /*  Move to the left */
         if(player.scale.x > 0){
             player.scale.x *= -1;
@@ -42,7 +37,6 @@ function update() {
         adler_weapon.fireAngle = 180;
         player.animations.play('anim');
     } else if (cursors.right.isDown) {
-        has_to_update = true;
         /*  Move to the right */
         player.body.velocity.x = 150;
         if(player.scale.x < 0){
@@ -57,22 +51,7 @@ function update() {
         }
     }
 
-    /*  Devil update  */
-    if( devil.x < player.x ) {
-        devil.body.velocity.x = +80;
-        if(devil.scale.x > 0){
-            devil.scale.x *= -1;
-        }
-    } else {
-        devil.body.velocity.x = -80;
-        if(devil.scale.x < 0){
-            devil.scale.x *= -1;
-        }
-    }
-    if( devil.y > player.y && devil.body.touching.down ) {
-        devil.body.velocity.y = -350;
-    }
-
+ 
     /*  Allow the player to jump if they are touching the ground. */
     if (cursors.up.isDown && player.body.touching.down) {
         player.body.velocity.y = -500;
@@ -81,7 +60,12 @@ function update() {
     player_name.x = player.x;
     player_name.y = player.y - 50;
 
-    if ( this.client.connected && (has_to_update || !player.body.touching.down) )
-        this.client.ws.send(JSON.stringify({ id: id, x: player.x, y: player.y  }));
-
+    if ( this.client.connected /*&& (has_to_update || !player.body.touching.down) */)
+        this.client.ws.send(
+            JSON.stringify({
+                id: id,
+                x: player.x,
+                y: player.y
+            }) 
+        );
 }
