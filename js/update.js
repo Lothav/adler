@@ -1,8 +1,7 @@
 function update() {
 
+    var has_to_update = false;
     
-    if (this.client.connected)
-        this.client.ws.send(JSON.stringify({ id: id, x: player.x, y: player.y  }));
 
     game.physics.arcade.collide([adler_weapon.bullets,player, devil], platforms);
     //game.physics.arcade.collide(stars, platforms);
@@ -31,6 +30,7 @@ function update() {
     }
 
     if(key_q.isDown){
+        has_to_update = true;
         if(player.key == 'adler'){
             player.loadTexture('adler_hit');
         }
@@ -38,6 +38,7 @@ function update() {
         player.animations.play('anim');
     }
     if (cursors.left.isDown) {
+        has_to_update = true;
         /*  Move to the left */
         if(player.scale.x > 0){
             player.scale.x *= -1;
@@ -46,6 +47,7 @@ function update() {
         adler_weapon.fireAngle = 180;
         player.animations.play('anim');
     } else if (cursors.right.isDown) {
+        has_to_update = true;
         /*  Move to the right */
         player.body.velocity.x = 150;
         if(player.scale.x < 0){
@@ -80,5 +82,8 @@ function update() {
     if (cursors.up.isDown && player.body.touching.down) {
         player.body.velocity.y = -500;
     }
+
+    if ( this.client.connected && (has_to_update || !player.body.touching.down) )
+        this.client.ws.send(JSON.stringify({ id: id, x: player.x, y: player.y  }));
 
 }

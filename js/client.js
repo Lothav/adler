@@ -50,7 +50,7 @@ Client.prototype.onMessage = function(message) {
                     for( i in multi_players ){
                         if( multi_players.hasOwnProperty(i) && multi_players[i].id == player.id ){
 
-
+                            console.log(player.x != multi_players[i].player.x );
                             /*  Multi Players animation  */
                             if( player.x != multi_players[i].player.x ) {
                                 if( player.x < multi_players[i].player.x ){
