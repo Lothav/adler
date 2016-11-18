@@ -1,23 +1,19 @@
 function update() {
 
     var has_to_update = false;
-    
+
 
     game.physics.arcade.collide([adler_weapon.bullets,player, devil], platforms);
     //game.physics.arcade.collide(stars, platforms);
     game.physics.arcade.overlap( player, devil, function(){
-       // game.state.restart();
+        // game.state.restart();
     });
-    game.physics.arcade.overlap(adler_weapon.bullets, devil, function(devil, bullet){
-        bullet.frame = 14;//animationName = 'explode';
-        setTimeout(function(){
-            bullet.kill();
-            adler_weapon.bulletAnimation = 'fire';
-        },1800);
-    });
+    /* game.physics.arcade.overlap(adler_weapon.bullets, devil, function(devil, bullet){
+
+     });*/
 
     game.physics.arcade.collide( devil, adler_weapon.bullets, function(player, bullet){
-        //@TODO change colision bullet
+        bullet.animations.play('explode');
     });
 
     game.camera.follow(player);
