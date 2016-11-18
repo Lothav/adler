@@ -4,7 +4,10 @@ Client.prototype.openConnection = function() {
 
     name = prompt("Digite um nome:", "Adlerito");
 
-    this.ws = new WebSocket("ws://localhost:3000");
+
+    // prod:  ws://luizotavioapi.herokuapp.com
+    // dev:  ws://localhost:3000
+    this.ws = new WebSocket("ws://luizotavioapi.herokuapp.com");
     this.connected = false;
     this.ws.onmessage = this.onMessage.bind(this);
     this.ws.onerror = this.displayError.bind(this);
