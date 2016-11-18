@@ -23,6 +23,7 @@ Client.prototype.onMessage = function(message) {
         id = msg.id;
     }
 
+    console.log(msg);
     if(undefined !== msg.players && null !== id){
         msg.players.forEach( function( player ){
             if( player.id != id){
