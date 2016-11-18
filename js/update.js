@@ -1,5 +1,9 @@
 function update() {
 
+    
+    if (this.client.connected)
+        this.client.ws.send(JSON.stringify({ id: id, x: player.x, y: player.y  }));
+
     game.physics.arcade.collide([adler_weapon.bullets,player, devil], platforms);
     //game.physics.arcade.collide(stars, platforms);
     game.physics.arcade.overlap( player, devil, function(){
@@ -77,11 +81,4 @@ function update() {
         player.body.velocity.y = -500;
     }
 
-
-
-
-
-
-    if (this.client.connected)
-        this.client.ws.send(JSON.stringify({ id: id, x: player.x, y: player.y  }));
 }
