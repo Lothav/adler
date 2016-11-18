@@ -12,11 +12,10 @@ function create() {
         ground.scale.setTo(2, 2);
         ground.body.immovable = true;
     }
-    for(i = 0; i < 10; i++)
-        platforms.create(
-            Math.round(Math.random()*3*(80)*i) + (3*80*i),
-            64 + Math.round(Math.random()*600), 'ground').body.immovable = true;
     
+    platforms.create( 13*(80) , 430, 'ground').body.immovable = true;
+    platforms.create( 4*(80) , 320, 'ground').body.immovable = true;
+
     player = game.add.sprite(800, game.world.height - 200, 'adler');
     player.scale.setTo(2,2);
     
