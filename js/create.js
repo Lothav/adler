@@ -28,6 +28,8 @@ function create() {
     player.body.gravity.y = 800;
     player.body.collideWorldBounds = true;
     player.anchor.setTo(.5,.5);
+    player_name = game.add.text( player.x, player.y - 50, "Adlerito", { font: "14px Arial", fill: "#ff0044"});
+    player_name.anchor.setTo(.5,.5);
 
     devil.body.bounce.y = 0.2;
     devil.body.gravity.y = 300;

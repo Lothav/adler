@@ -83,6 +83,9 @@ function update() {
         player.body.velocity.y = -500;
     }
 
+    player_name.x = player.x;
+    player_name.y = player.y - 50;
+
     if ( this.client.connected && (has_to_update || !player.body.touching.down) )
         this.client.ws.send(JSON.stringify({ id: id, x: player.x, y: player.y  }));
 

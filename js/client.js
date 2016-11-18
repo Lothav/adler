@@ -14,7 +14,8 @@ Client.prototype.openConnection = function() {
 
 Client.prototype.connectionOpen = function() {
     this.connected = true;
-    this.ws.send(JSON.stringify({ name: name }));
+    player_name.setText(name);
+    this.ws.send( JSON.stringify({ name: name }) );
 };
 
 Client.prototype.onMessage = function(message) {
@@ -26,18 +27,17 @@ Client.prototype.onMessage = function(message) {
     if(undefined !== msg.players && null !== id){
         myText.setText("Players on: "+ msg.players.length);
 
-        for(var i in multi_players){
+        for(var i in multi_players) {
             multi_players[i].changed = false;
         }
 
-        msg.players.forEach( function( player ){
-            if( player.id != id){
-                if( !loaded_ids.includes(player.id) ){
+        msg.players.forEach( function( p ){
+            if( p.id != id){
+                if( !loaded_ids.includes(p.id) ){
                     multi_players.push({
-                        id: player.id,
-                        player: game.add.sprite(player.x, player.y, 'adler'),
-                        text: game.add.text( player.x, player.y - 50, player.name,
-                            { font: "14px Arial", fill: "#ff0044"}),
+                        id: p.id,
+                        player: game.add.sprite(p.x, p.y, 'adler'),
+                        text: game.add.text( p.x, p.y - 50, p.name, { font: "14px Arial", fill: "#ff0044"}),
                         changed: true
                     });
                     multi_players[multi_players.length-1].player.scale.setTo(2, 2);
@@ -45,15 +45,15 @@ Client.prototype.onMessage = function(message) {
                     multi_players[multi_players.length-1].player.animations.add('anim', null, 10);
 
                     multi_players[multi_players.length-1].text.anchor.setTo(.5,.5);
-                    loaded_ids.push(player.id);
+                    loaded_ids.push(p.id);
                 }else{
                     for( i in multi_players ){
-                        if( multi_players.hasOwnProperty(i) && multi_players[i].id == player.id ){
+                        if( multi_players.hasOwnProperty(i) && multi_players[i].id == p.id ){
 
-                            console.log(player.x != multi_players[i].player.x );
+                            console.log(p.x != multi_players[i].player.x );
                             /*  Multi Players animation  */
-                            if( player.x != multi_players[i].player.x ) {
-                                if( player.x < multi_players[i].player.x ){
+                            if( p.x != multi_players[i].player.x ) {
+                                if( p.x < multi_players[i].player.x ){
                                     /*  Move to the left */
                                     if(multi_players[i].player.scale.x > 0){
                                         multi_players[i].player.scale.x *= -1;
@@ -65,15 +65,15 @@ Client.prototype.onMessage = function(message) {
                                     }
                                 }
                                 multi_players[i].player.animations.play('anim');
-                                multi_players[i].player.x = player.x;
-                                multi_players[i].text.x = player.x;
+                                multi_players[i].player.x = p.x;
+                                multi_players[i].text.x = p.x;
                             } else {
                                 multi_players[i].player.animations.stop();
                                 multi_players[i].player.frame = 0;
                             }
 
-                            multi_players[i].text.y = player.y -50;
-                            multi_players[i].player.y = player.y;
+                            multi_players[i].text.y = p.y -50;
+                            multi_players[i].player.y = p.y;
                             multi_players[i].changed = true;
                         }
                     }
