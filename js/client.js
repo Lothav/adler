@@ -9,7 +9,7 @@ Client.prototype.openConnection = function() {
     this.ws.onmessage = this.onMessage.bind(this);
     this.ws.onerror = this.displayError.bind(this);
     this.ws.onopen = this.connectionOpen.bind(this);
-   // this.ws.onclose = this.connectionClose.bind(this);
+    // this.ws.onclose = this.connectionClose.bind(this);
 
 };
 
@@ -22,17 +22,27 @@ Client.prototype.onMessage = function(message) {
     if(msg.id !== undefined){
         id = msg.id;
     }
+    console.log(msg.players);
+
     if(undefined !== msg.players && null !== id){
+        console.log(msg.players);
         msg.players.forEach( function( player ){
-            console.log(id);
-            if( player.id != id && !loaded_ids.includes(player.id) ){
-                multi_players.push(game.add.sprite(800, game.world.height - 200, 'adler'));
-                multi_players[multi_players.length -1 ].scale.setTo(2, 2);
-                loaded_ids.push(player.id);
-            }else{
-                if( loaded_ids.includes(player.id) ){
-                    multi_players[0].x = player.x;
-                    multi_players[0].y = player.y;
+            if( player.id != id){
+                if( !loaded_ids.includes(player.id) ){
+                    multi_players.push({
+                        player: game.add.sprite(player.x, player.y, 'adler'),
+                        id: player.id
+                    });
+                    multi_players[multi_players.length-1].player.scale.setTo(2, 2);
+                    loaded_ids.push(player.id);
+                }else{
+                    for(var i in multi_players){
+                        console.log(multi_players[i]);
+                        if(multi_players.hasOwnProperty(i) && multi_players[i].id == player.id){
+                            multi_players[i].player.x = player.x;
+                            multi_players[i].player.y = player.y;
+                        }
+                    }
                 }
             }
         });
