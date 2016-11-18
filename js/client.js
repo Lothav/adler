@@ -23,8 +23,8 @@ Client.prototype.onMessage = function(message) {
         id = msg.id;
     }
 
-    console.log(msg);
     if(undefined !== msg.players && null !== id){
+        myText.setText("Players on: "+ msg.players.length);
         msg.players.forEach( function( player ){
             if( player.id != id){
                 if( !loaded_ids.includes(player.id) ){

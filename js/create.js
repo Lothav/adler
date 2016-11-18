@@ -12,7 +12,7 @@ function create() {
         ground.scale.setTo(2, 2);
         ground.body.immovable = true;
     }
-    
+
     platforms.create( 13*(80) , 430, 'ground').body.immovable = true;
     platforms.create( 4*(80) , 320, 'ground').body.immovable = true;
 
@@ -68,6 +68,6 @@ function create() {
     /* Client Web Socket */
     this.client = new Client();
     this.client.openConnection();
-    myText = game.add.text(0, 0, "started (not yet connected)", { font: "14px Arial", fill: "#ff0044"});
+    myText = game.add.text(0, 0, "Players ON : 1", { font: "24px Arial", fill: "#ff0044"});
     game.stage.disableVisibilityChange = true;
 }
