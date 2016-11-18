@@ -62,7 +62,7 @@ function update() {
         }
     }
 
-    /*  Devil update  */   
+    /*  Devil update  */
     if( devil.x < player.x ) {
         devil.body.velocity.x = +80;
         if(devil.scale.x > 0){

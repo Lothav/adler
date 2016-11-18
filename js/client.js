@@ -2,19 +2,19 @@ function Client() {}
 
 Client.prototype.openConnection = function() {
 
-    var name = prompt("Please enter your name", "Anonymous");
+    name = prompt("Digite um nome:", "Adlerito");
 
-    this.ws = new WebSocket("ws://luizotavioapi.herokuapp.com", name);
+    this.ws = new WebSocket("ws://luizotavioapi.herokuapp.com");
     this.connected = false;
     this.ws.onmessage = this.onMessage.bind(this);
     this.ws.onerror = this.displayError.bind(this);
     this.ws.onopen = this.connectionOpen.bind(this);
     // this.ws.onclose = this.connectionClose.bind(this);
-
 };
 
 Client.prototype.connectionOpen = function() {
     this.connected = true;
+    this.ws.send(JSON.stringify({ name: name }));
 };
 
 Client.prototype.onMessage = function(message) {
