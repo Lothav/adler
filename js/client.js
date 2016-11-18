@@ -42,15 +42,37 @@ Client.prototype.onMessage = function(message) {
                     });
                     multi_players[multi_players.length-1].player.scale.setTo(2, 2);
                     multi_players[multi_players.length-1].player.anchor.setTo(.5,.5);
+                    multi_players[multi_players.length-1].player.animations.add('anim', null, 10);
 
                     multi_players[multi_players.length-1].text.anchor.setTo(.5,.5);
                     loaded_ids.push(player.id);
                 }else{
                     for( i in multi_players ){
-                        if(multi_players.hasOwnProperty(i) && multi_players[i].id == player.id) {
-                            multi_players[i].text.x = player.x;
+                        if( multi_players.hasOwnProperty(i) && multi_players[i].id == player.id ){
+
+
+                            /*  Multi Players animation  */
+                            if( player.x != multi_players[i].player.x ) {
+                                if( player.x < multi_players[i].player.x ){
+                                    /*  Move to the left */
+                                    if(multi_players[i].player.scale.x > 0){
+                                        multi_players[i].player.scale.x *= -1;
+                                    }
+                                } else {
+                                    /*  Move to the right */
+                                    if(multi_players[i].player.scale.x < 0){
+                                        multi_players[i].player.scale.x *= -1;
+                                    }
+                                }
+                                multi_players[i].player.animations.play('anim');
+                                multi_players[i].player.x = player.x;
+                                multi_players[i].text.x = player.x;
+                            } else {
+                                multi_players[i].player.animations.stop();
+                                multi_players[i].player.frame = 0;
+                            }
+
                             multi_players[i].text.y = player.y -50;
-                            multi_players[i].player.x = player.x;
                             multi_players[i].player.y = player.y;
                             multi_players[i].changed = true;
                         }
