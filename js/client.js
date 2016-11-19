@@ -38,12 +38,13 @@ Client.prototype.onMessage = function(message) {
                     devil.scale.x *= -1;
                 }
             }
-            if( player.id == devil.follow_id ) {
+            console.log(id, msg.devil.follow_id);
+            if( id == msg.devil.follow_id ) {
                 if (player.y < devil.y && devil.body.touching.down)
                     devil.body.velocity.y = -500;
             } else
             multi_players.forEach(function(p, indx){
-                if(p.id == devil.follow_id && p.player.y > devil.y && devil.body.touching.down)
+                if(p.id == msg.devil.follow_id && p.player.y > devil.y && devil.body.touching.down)
                     multi_players[indx].player.body.velocity.y = -500;
             });
             devil.x = msg.devil.x;
