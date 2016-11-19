@@ -40,4 +40,5 @@ function addDevil(d){
     game.world.sendToBack(devil);
     game.world.moveUp(devil);
     game.world.moveUp(devil);
+    game.world.moveUp(devil);
 }

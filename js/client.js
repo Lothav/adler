@@ -25,21 +25,25 @@ var anim_count = 0;
 Client.prototype.onMessage = function(message) {
     var msg = JSON.parse(message.data);
 
-    if(msg.devil !== undefined){
-       // console.log(msg.devil);
-        if(devil === undefined)
-            addDevil(msg.devil);
-        else{
+    if( msg.devil !== undefined )
+        if( devil === undefined ) addDevil(msg.devil);
+        else {
+            if( devil.x > msg.devil.x ){
+                /*  to left */
+                if(devil.scale.x < 0){
+                    devil.scale.x *= -1;
+                }
+            }else{
+                if(devil.scale.x > 0){
+                    devil.scale.x *= -1;
+                }
+            }
             devil.x = msg.devil.x;
-           // devil.y = msg.devil.y;
         }
-    }
 
-    if(msg.id !== undefined){
-        id = msg.id;
-    }
+    if( msg.id !== undefined ) id = msg.id;
 
-    if(undefined !== msg.players && null !== id){
+    if( undefined !== msg.players && null !== id ){
         myText.setText("Players on: "+ msg.players.length);
 
         for(var i in multi_players) {
@@ -96,7 +100,6 @@ Client.prototype.onMessage = function(message) {
                             multi_players[i].changed = true;
                         }
                     }
-
                 }
             }
         });
