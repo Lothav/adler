@@ -24,7 +24,6 @@ function gofull() {
     else game.scale.startFullScreen(false);
 }
 
-
 function addDevil(d){
     devil = game.add.sprite(d.x, d.y, 'devil');
     devil.scale.setTo(2,2);
