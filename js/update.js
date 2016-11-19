@@ -4,16 +4,12 @@ function update() {
     game.physics.arcade.overlap( player, devil, function(){
         // game.state.restart();
     });
-    /* game.physics.arcade.overlap(adler_weapon.bullets, devil, function(devil, bullet){
 
-     });*/
-
-    game.physics.arcade.collide( devil, adler_weapon.bullets, function(player, bullet){
+    game.physics.arcade.overlap( devil, adler_weapon.bullets, function(devil, bullet){
         bullet.animations.play('explode');
     });
 
     game.camera.follow(player);
-    game.physics.arcade.overlap(player, stars, collectStar, null, this);
     player.body.velocity.x = 0;
 
     if(player.frame == 2 && player.key == 'adler_hit'){
@@ -65,7 +61,10 @@ function update() {
             JSON.stringify({
                 id: id,
                 x: player.x,
-                y: player.y
+                y: player.y,
+                devil:{
+                    y: devil !== undefined ? devil.y : 80
+                }
             }) 
         );
 }

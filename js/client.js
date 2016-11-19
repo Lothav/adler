@@ -4,10 +4,9 @@ Client.prototype.openConnection = function() {
 
     name = prompt("Digite um nome:", "Adlerito");
 
-
     // prod:  ws://luizotavioapi.herokuapp.com
     // dev:  ws://localhost:3000
-    this.ws = new WebSocket("ws://luizotavioapi.herokuapp.com");
+    this.ws = new WebSocket("ws://localhost:3000");
     this.connected = false;
     this.ws.onmessage = this.onMessage.bind(this);
     this.ws.onerror = this.displayError.bind(this);
@@ -28,6 +27,7 @@ Client.prototype.onMessage = function(message) {
     if( msg.devil !== undefined )
         if( devil === undefined ) addDevil(msg.devil);
         else {
+            /*  to left */
             if( devil.x > msg.devil.x ){
                 /*  to left */
                 if(devil.scale.x < 0){
@@ -38,38 +38,44 @@ Client.prototype.onMessage = function(message) {
                     devil.scale.x *= -1;
                 }
             }
+            if( player.id == devil.follow_id ) {
+                if (player.y < devil.y && devil.body.touching.down)
+                    devil.body.velocity.y = -500;
+            } else
+            multi_players.forEach(function(p, indx){
+                if(p.id == devil.follow_id && p.player.y > devil.y && devil.body.touching.down)
+                    multi_players[indx].player.body.velocity.y = -500;
+            });
             devil.x = msg.devil.x;
         }
 
     if( msg.id !== undefined ) id = msg.id;
 
     if( undefined !== msg.players && null !== id ){
-        myText.setText("Players on: "+ msg.players.length);
 
-        for(var i in multi_players) {
-            multi_players[i].changed = false;
-        }
+        myText.setText("Players on: "+ msg.players.length);
+        for(var i in multi_players) multi_players[i].changed = false;
 
         msg.players.forEach( function( p ){
-            if( p.id != id){
+            if( p.id != id ){
                 if( !loaded_ids.includes(p.id) ){
                     multi_players.push({
                         id: p.id,
-                        player: game.add.sprite(p.x, p.y, 'adler'),
+                        player: game.add.sprite(p.x, p.y, 'marina'),
                         text: game.add.text( p.x, p.y - 50, p.name, { font: "14px Arial", fill: "#ff0044"}),
                         changed: true
                     });
-                    multi_players[multi_players.length-1].player.scale.setTo(2, 2);
-                    multi_players[multi_players.length-1].player.anchor.setTo(.5,.5);
-                    multi_players[multi_players.length-1].player.animations.add('anim', null, 10);
+                    var indx = multi_players.length-1;
+                    multi_players[indx].player.scale.setTo(2, 2);
+                    multi_players[indx].player.anchor.setTo(.5,.5);
+                    multi_players[indx].player.animations.add('anim', null, 10);
 
-                    multi_players[multi_players.length-1].text.anchor.setTo(.5,.5);
+                    multi_players[indx].text.anchor.setTo(.5,.5);
                     loaded_ids.push(p.id);
-                }else{
+                } else {
                     for( i in multi_players ){
                         if( multi_players.hasOwnProperty(i) && multi_players[i].id == p.id ){
 
-                            console.log(p.x , i);
                             /*  Multi Players animation  */
                             if( p.x != multi_players[i].player.x ) {
                                 anim_count = 0;

@@ -10,14 +10,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 
 var id = null, player, name, player_name, myText, 
     multi_players = [], loaded_ids = [], 
-    devil,
-    platforms, cursors, key_q,i, stars, score = 0, scoreText, adler_weapon;
-
-function collectStar (player, star) {
-    star.kill();
-    score += 10;
-    scoreText.text = 'Score: ' + score;
-}
+    devil, platforms, cursors, key_q, i, adler_weapon;
 
 function gofull() {
     if (game.scale.isFullScreen) game.scale.stopFullScreen();
@@ -29,13 +22,13 @@ function addDevil(d){
     devil.scale.setTo(2,2);
     
     game.physics.arcade.enable(devil);
-    devil.body.bounce.y = 0.2;
-    devil.body.gravity.y = 300;
+    devil.body.bounce.y = 0.3;
+    devil.body.gravity.y = 700;
     devil.body.collideWorldBounds = true;
     devil.anchor.setTo(.5,.5);
     devil.animations.add('anim',null, 5, true);
     devil.animations.play('anim');
-    
+
     game.world.sendToBack(devil);
     game.world.moveUp(devil);
     game.world.moveUp(devil);
