@@ -70,6 +70,12 @@ Adler.Game = function () {
      * @property {Array<Adler.MultiPlayers>} multi_players - Array with others players objects.
      * */
     this.multi_players = [];
+
+    /**
+     *
+     *
+     * */
+    this.connected = false;
 };
 
 Adler.Game.prototype = {
