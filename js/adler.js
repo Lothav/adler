@@ -174,45 +174,10 @@ Adler.Game.prototype = {
                         );
                         this.loaded_ids.push(p.id);
                     } else {
-                        for( i in this.multi_players ){
-                            if( this.multi_players.hasOwnProperty(i) && this.multi_players[i].id == p.id ){
-
-                                /*  Multi Players animation  */
-                                if( p.fire ){
-                                    this.multi_players[i].player.loadTexture('adler_hit');
-                                    this.multi_players[i].player.animations.play("walk");
-                                }
-                                if(this.multi_players[i].player.key == 'adler_hit' && this.multi_players[i].player.frame == 3 ){
-                                    this.multi_players[i].weapon.fire();
-                                }
-
-                                if( p.x !== this.multi_players[i].player.x ) {
-
-                                    if( p.x < this.multi_players[i].player.x ){
-                                        /*  Move to the left */
-                                        if(this.multi_players[i].player.scale.x > 0){
-                                            this.multi_players[i].player.scale.x *= -1;
-                                        }
-                                        this.multi_players[i].updateWeaponPos('left');
-                                    } else {
-                                        /*  Move to the right */
-                                        if(this.multi_players[i].player.scale.x < 0){
-                                            this.multi_players[i].player.scale.x *= -1;
-                                        }
-                                        this.multi_players[i].updateWeaponPos('right');
-                                    }
-                                    this.multi_players[i].player.animations.play('walk');
-                                    this.multi_players[i].player.x = p.x;
-
-                                } else if(this.multi_players[i].player.key != 'adler_hit'){
-                                    this.multi_players[i].player.animations.stop();
-                                    this.multi_players[i].player.frame = 0;
-                                }
-                                this.multi_players[i].player.y = p.y;
-                                this.multi_players[i].updateTextPos();
-                                this.multi_players[i].changed = true;
-                            }
-                        }
+                        this.multi_players.forEach(function(player){
+                            player.updateAnimation(p);
+                        });
+                       
                     }
                 }
             }.bind(this));

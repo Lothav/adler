@@ -70,7 +70,8 @@ Adler.Game.MultiPlayers.prototype = {
     },
 
     /**
-     *
+     * Update player weapaon.
+     * @method
      * */
     updateWeaponPos: function (to) {
         if(this.weapon !== null){
@@ -81,106 +82,50 @@ Adler.Game.MultiPlayers.prototype = {
             }
             this.weapon.fireFrom.centerOn(this.player.x, this.player.y+10);
         }
+    },
+    /**
+     * Update player animations.
+     * @method
+     * */
+    updateAnimation: function(p){
+        if( this.id == p.id ){
+
+            /*  Multi Players animation  */
+            if( p.fire && this.player.key == 'adler'){
+                this.player.loadTexture('adler_hit');
+                this.player.animations.play("walk");
+            }
+            if(this.player.key == 'adler_hit' && this.player.frame == 3 ){
+                this.weapon.fire();
+            }
+
+            if( p.x !== this.player.x ) {
+
+                if( p.x < this.player.x ){
+                    /*  Move to the left */
+                    if(this.player.scale.x > 0){
+                        this.player.scale.x *= -1;
+                    }
+                    this.updateWeaponPos('left');
+                } else {
+                    /*  Move to the right */
+                    if(this.player.scale.x < 0){
+                        this.player.scale.x *= -1;
+                    }
+                    this.updateWeaponPos('right');
+                }
+                this.player.animations.play('walk');
+                this.player.x = p.x;
+
+            } else if(this.player.key != 'adler_hit'){
+                this.player.animations.stop();
+                this.player.frame = 0;
+            }
+            this.player.y = p.y;
+            this.updateTextPos();
+            this.changed = true;
+        }
     }
 };
 
 Adler.Game.MultiPlayers.prototype.constructor = Adler.Game.MultiPlayers;
-
-
-/**
- * Players
- * Class that have all information about playable players.
- * Implemented by Adler.Game.MultiPlayers.
- * @class
- * */
-Adler.Players = function (instance, type, p) {
-    /**
-     * Player Phaser.Sprite.
-     * @property
-     * @private
-     * */
-    this._sprite = this.setSprite(instance, type, p);
-
-    /**
-     * Player Phaser.Weapon.
-     * @property
-     * @private
-     * */
-    this._weapon = this.setWeapon(instance, type);
-};
-
-/**
- * @const
- * */
-Adler.Players.ADLER = 0;
-Adler.Players.MARINA = 1;
-
-Adler.Players.prototype = {
-
-    /**
-     * Set playable players sprite by type.
-     * @method
-     * */
-    setSprite : function (instance, type, p) {
-        switch (type){
-            case Adler.Players.MARINA:
-                var marina = instance.add.sprite(p.x, p.y, 'marina');
-                marina.scale.setTo(2, 2);
-                marina.anchor.setTo(.5, .5);
-                marina.animations.add('walk', null, 10);
-                return marina;
-            default:
-                var adler = instance.add.sprite(p.x, p.y, 'adler');
-                adler.scale.setTo(2, 2);
-                adler.anchor.setTo(.5, .5);
-                adler.animations.add('walk', null, 10).onComplete.add(function(sprite){
-                    console.log(sprite);
-                    if(sprite.key == 'adler_hit') {
-                        sprite.loadTexture('adler');
-                    }
-                });
-                return adler;
-        }
-    },
-
-    /**
-     * Set playable players weapon by type.
-     * @method
-     * */
-    setWeapon: function (instance, type) {
-        switch (type){
-            case Adler.Players.MARINA:
-                return null;
-            default:
-
-                var weapon = instance.add.weapon(10, 'adler_weapon_projectile');
-                weapon = instance.add.weapon(10, 'adler_weapon_projectile');
-                weapon.addBulletAnimation("explode", [5,6,7,8,9,10,11,12,13]);
-
-                weapon.bullets.children.forEach(function(bullet){
-                    bullet.scale.setTo(2,2);
-                    bullet.animations._anims.explode.onComplete.add( function( sprite, animation ){
-                        sprite.kill();
-                    }, this);
-                });
-
-                weapon.addBulletAnimation("fire", [0,1,2,3,4], 10, true);
-                weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-                weapon.bulletSpeed = 500;
-                weapon.fireRate = 500;
-                weapon.fireAngle = 0;
-
-                return weapon;
-        }
-    },
-
-    getWeapon:function(){
-        return this._weapon;
-    },
-
-    getSprite:function(){
-        return this._sprite;
-    }
-};
-
-Adler.Players.prototype.constructor = Adler.Players;
