@@ -103,8 +103,8 @@ Adler.Game.prototype = {
 
     connectionOpen : function() {
         this.connected = true;
-        this.player_name.setText(prompt("Digite um nome:", "Adlerito"));
-
+        var name = prompt("Digite um nome:", "Adlerito");
+        this.player_name.setText( name );
         //this.player_name.setText(name);
         this.ws.send( JSON.stringify({ name: name }) );
     },
@@ -169,13 +169,10 @@ Adler.Game.prototype = {
                 if( p.id != this.player_id ){
                     if( !this.loaded_ids.includes(p.id) ){
                         this.multi_players.push(
-                            new Adler.Game.MultiPlayers(p.id, p.name, Adler.Players.MARINA, this.player, this.instance)
+                            new Adler.Game.MultiPlayers(
+                                p.id, p.name, Adler.Players.MARINA, this.player, this.instance)
                         );
-                        var indx = this.multi_players.length-1;
-                        this.multi_players[indx].player.scale.setTo(2, 2);
-                        this.multi_players[indx].player.anchor.setTo(.5,.5);
-                        this.multi_players[indx].player.animations.add('anim', null, 10);
-                        this.multi_players[indx].setText(this.instance);
+
                         this.loaded_ids.push(p.id);
                     } else {
                         for( i in this.multi_players ){
@@ -201,8 +198,8 @@ Adler.Game.prototype = {
                                     this.multi_players[i].player.animations.stop();
                                     this.multi_players[i].player.frame = 0;
                                 }
-                                this.multi_players[i].updateTextPos();
                                 this.multi_players[i].player.y = p.y;
+                                this.multi_players[i].updateTextPos();
                                 this.multi_players[i].changed = true;
                             }
                         }
@@ -211,8 +208,7 @@ Adler.Game.prototype = {
             }.bind(this));
             for( i in this.multi_players ){
                 if(this.multi_players.hasOwnProperty(i) && !this.multi_players[i].changed) {
-                    this.multi_players[i].player.kill();
-                    this.multi_players[i].textDestroy();
+                    this.multi_players[i].destroy();
                     this.loaded_ids.splice(this.loaded_ids.indexOf(this.multi_players[i].id), 1);
                     this.multi_players.splice(i, 1);
                 }
@@ -235,21 +231,4 @@ Adler.Game.prototype = {
 };
 
 Adler.Game.prototype.constructor = Adler.Game;
-
-
-
-Adler.Players = function () {};
-Adler.Players.ADLER = 0;
-Adler.Players.MARINA = 1;
-
-Adler.Players.prototype = {
-    getSprite : function (instance, type, p) {
-        switch (type){
-            case Adler.Players.MARINA:
-                return instance.add.sprite(p.x, p.y, 'marina');
-            default:
-                return instance.add.sprite(p.x, p.y, 'adler');
-        }
-    }
-};
 
