@@ -139,7 +139,7 @@ Adler.Game.prototype = {
     },
 
     onMessage : function(message) {
-        var msg = JSON.parse(message.data);
+        var msg = JSON.parse(message.data), i;
 
         if( msg.devil !== undefined ) {
             if (this.devil === null) this.addDevil(msg.devil);
@@ -169,11 +169,13 @@ Adler.Game.prototype = {
         }
         if( msg.id !== undefined ) this.player_id = msg.id;
 
+        if(msg.online_players !== undefined )
+            for( i in this.multi_players ) 
+                this.multi_players[i].online = msg.online_players.includes( this.multi_players[i].id );
+        else 
+            for( i in this.multi_players ) this.multi_players[i].online = false;
+
         if( undefined !== msg.players && null !== this.player_id ){
-
-            //this.text_info.setText("Players on: "+ msg.players.length);
-            for(var i in this.multi_players) this.multi_players[i].changed = false;
-
             msg.players.forEach( function( p ){
                 if( p.id != this.player_id ){
                     if( !this.loaded_ids.includes(p.id) ){
@@ -186,16 +188,16 @@ Adler.Game.prototype = {
                         this.multi_players.forEach(function(player){
                             player.updateAnimation(p);
                         });
-                       
                     }
                 }
             }.bind(this));
-            for( i in this.multi_players ){
-                if(this.multi_players.hasOwnProperty(i) && !this.multi_players[i].changed) {
-                    this.multi_players[i].destroy();
-                    this.loaded_ids.splice(this.loaded_ids.indexOf(this.multi_players[i].id), 1);
-                    this.multi_players.splice(i, 1);
-                }
+        }
+
+        for( i in this.multi_players ){
+            if( this.multi_players.hasOwnProperty(i) && !this.multi_players[i].online ) {
+                this.multi_players[i].destroy();
+                this.loaded_ids.splice(this.loaded_ids.indexOf(this.multi_players[i].id), 1);
+                this.multi_players.splice(i, 1);
             }
         }
     },

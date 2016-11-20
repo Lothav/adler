@@ -15,9 +15,9 @@ Adler.Game.MultiPlayers = function (id, name, type, p, instance) {
     this.name = name;
 
     /**
-     * @property {Boolean} changed - If player not change on request, they are removed.
+     * @property {Boolean} online - If player not change on request, they are removed.
      * */
-    this.changed = true;
+    this.online = true;
 
 
     var player_obj = new Adler.Players(instance, type, p);
@@ -122,8 +122,8 @@ Adler.Game.MultiPlayers.prototype = {
                 this.player.frame = 0;
             }
             this.player.y = p.y;
+            this.online = true;
             this.updateTextPos();
-            this.changed = true;
         }
     }
 };
