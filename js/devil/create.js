@@ -18,7 +18,7 @@ Adler.Game.Devil.prototype.create = function () {
     this.platforms.create( 13*(80) , 430, 'ground').body.immovable = true;
     this.platforms.create( 4*(80) , 320, 'ground').body.immovable = true;
 
-    this.player = this.instance.add.sprite(800, this.instance.world.height - 200, 'adler');
+    this.player = this.instance.add.sprite(800, this.instance.world.height - 200, 'marina');
     this.player.scale.setTo(2,2);
    
     this.instance.physics.arcade.enable(this.player);
@@ -27,11 +27,13 @@ Adler.Game.Devil.prototype.create = function () {
     this.player.body.gravity.y = 800;
     this.player.body.collideWorldBounds = true;
     this.player.anchor.setTo(.5,.5);
+    this.player.body.setSize(24, 48, 12, 0);
+
     this.player_name = this.instance.add.text( this.player.x, this.player.y - 50, "Adlerito", { font: "14px Arial", fill: "#ff0044"});
     this.player_name.anchor.setTo(.5,.5);
 
 
-    this.player.animations.add('anim', null, 10)
+    this.player.animations.add('walk', [1, 2, 3, 4, 5, 6, 7, 8], 10)
         .onComplete.add(function(){
         if(this.player.key == 'adler_hit') {
             this.player.loadTexture('adler');

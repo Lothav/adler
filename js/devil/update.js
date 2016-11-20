@@ -28,7 +28,7 @@ Adler.Game.Devil.prototype.update = function () {
         }
         this.player.body.velocity.x = -150;
         this.adler_weapon.fireAngle = 180;
-        this.player.animations.play('anim');
+        this.player.animations.play('walk');
     } else if (this.cursors.right.isDown) {
         /*  Move to the right */
         this.player.body.velocity.x = 150;
@@ -36,7 +36,7 @@ Adler.Game.Devil.prototype.update = function () {
             this.player.scale.x *= -1;
         }
         this.adler_weapon.fireAngle = 0;
-        this.player.animations.play('anim');
+        this.player.animations.play('walk');
     } else {
         if(!this.key_q.isDown && (this.player.key != 'adler_hit') ) {
             this.player.animations.stop();
@@ -58,7 +58,7 @@ Adler.Game.Devil.prototype.update = function () {
             this.player.loadTexture('adler_hit');
         }
         this.player.animations.frameRate = 120;
-        this.player.animations.play('anim');
+        this.player.animations.play('walk');
         fired = true;
     }
 
