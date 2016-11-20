@@ -4,17 +4,22 @@
     <meta charset="UTF-8" />
     <title>Adler</title>
     <script type="text/javascript" src="js/phaser.js"></script>
-    <script type="text/javascript" src="js/client.js"></script>
-    <script type="text/javascript" src="js/create.js"></script>
-    <script type="text/javascript" src="js/preload.js"></script>
-    <script type="text/javascript" src="js/update.js"></script>
-    <script type="text/javascript" src="js/globals.js"></script>
+    <script type="text/javascript" src="js/adler.js"></script>
+    <script type="text/javascript" src="js/multiPlayers.js"></script>
+    <script type="text/javascript" src="js/devil/devil.js"></script>
+    <script type="text/javascript" src="js/devil/create.js"></script>
+    <script type="text/javascript" src="js/devil/preload.js"></script>
+    <script type="text/javascript" src="js/devil/update.js"></script>
+    <!--script type="text/javascript" src="js/devil/wsMessage.js"></script-->
 
     <style type="text/css">
-        body {
-            margin: 0;
-        }
+        body { margin: 0; }
     </style>
+    <script>
+        window.onload = function(){
+            (new Adler.Game()).Start();
+        }
+    </script>
 </head>
 <body>
 </body>

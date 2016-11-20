@@ -1,131 +1,39 @@
-function Client() {}
 
-Client.prototype.openConnection = function() {
+Adler.Game.Client = function (h) {
+    this.player_id = h.player_id;
+    this.connected = false;
+    this.multi_players = [];
+    this.ws = null;
+    this.prototype = h;
+};
 
-    name = prompt("Digite um nome:", "Adlerito");
+Adler.Game.Client.prototype.constructor = Adler.Game.Client;
+
+Adler.Game.Client.prototype.openConnection = function() {
 
     // prod:  ws://luizotavioapi.herokuapp.com
     // dev:  ws://localhost:3000
     this.ws = new WebSocket("ws://localhost:3000");
-    this.connected = false;
-    this.ws.onmessage = this.onMessage.bind(this);
+    this.ws.onmessage = Adler.Game.Devil.prototype.wsMessage.bind(this);
     this.ws.onerror = this.displayError.bind(this);
     this.ws.onopen = this.connectionOpen.bind(this);
     // this.ws.onclose = this.connectionClose.bind(this);
 };
 
-Client.prototype.connectionOpen = function() {
+Adler.Game.Client.prototype.connectionOpen = function() {
     this.connected = true;
-    player_name.setText(name);
+    var name = prompt("Digite um nome:", "Adlerito");
+
+    //this.player_name.setText(name);
     this.ws.send( JSON.stringify({ name: name }) );
 };
 
-var anim_count = 0;
-Client.prototype.onMessage = function(message) {
-    var msg = JSON.parse(message.data);
-
-    if( msg.devil !== undefined )
-        if( devil === undefined ) addDevil(msg.devil);
-        else {
-            /*  to left */
-            if( devil.x > msg.devil.x ){
-                /*  to left */
-                if(devil.scale.x < 0){
-                    devil.scale.x *= -1;
-                }
-            }else{
-                if(devil.scale.x > 0){
-                    devil.scale.x *= -1;
-                }
-            }
-            console.log(id, msg.devil.follow_id);
-            if( id == msg.devil.follow_id ) {
-                if (player.y < devil.y && devil.body.touching.down)
-                    devil.body.velocity.y = -500;
-            } else
-            multi_players.forEach(function(p, indx){
-                if(p.id == msg.devil.follow_id && p.player.y > devil.y && devil.body.touching.down)
-                    multi_players[indx].player.body.velocity.y = -500;
-            });
-            devil.x = msg.devil.x;
-        }
-
-    if( msg.id !== undefined ) id = msg.id;
-
-    if( undefined !== msg.players && null !== id ){
-
-        myText.setText("Players on: "+ msg.players.length);
-        for(var i in multi_players) multi_players[i].changed = false;
-
-        msg.players.forEach( function( p ){
-            if( p.id != id ){
-                if( !loaded_ids.includes(p.id) ){
-                    multi_players.push({
-                        id: p.id,
-                        player: game.add.sprite(p.x, p.y, 'marina'),
-                        text: game.add.text( p.x, p.y - 50, p.name, { font: "14px Arial", fill: "#ff0044"}),
-                        changed: true
-                    });
-                    var indx = multi_players.length-1;
-                    multi_players[indx].player.scale.setTo(2, 2);
-                    multi_players[indx].player.anchor.setTo(.5,.5);
-                    multi_players[indx].player.animations.add('anim', null, 10);
-
-                    multi_players[indx].text.anchor.setTo(.5,.5);
-                    loaded_ids.push(p.id);
-                } else {
-                    for( i in multi_players ){
-                        if( multi_players.hasOwnProperty(i) && multi_players[i].id == p.id ){
-
-                            /*  Multi Players animation  */
-                            if( p.x != multi_players[i].player.x ) {
-                                anim_count = 0;
-                                if( p.x < multi_players[i].player.x ){
-                                    /*  Move to the left */
-                                    if(multi_players[i].player.scale.x > 0){
-                                        multi_players[i].player.scale.x *= -1;
-                                    }
-                                } else {
-                                    /*  Move to the right */
-                                    if(multi_players[i].player.scale.x < 0){
-                                        multi_players[i].player.scale.x *= -1;
-                                    }
-                                }
-                                multi_players[i].player.animations.play('anim');
-                                multi_players[i].player.x = p.x;
-                                multi_players[i].text.x = p.x;
-                            } else {
-                                anim_count++;
-                                if(anim_count ==10){
-                                    multi_players[i].player.animations.stop();
-                                    multi_players[i].player.frame = 0;
-                                }
-                            }
-
-                            multi_players[i].text.y = p.y -50;
-                            multi_players[i].player.y = p.y;
-                            multi_players[i].changed = true;
-                        }
-                    }
-                }
-            }
-        });
-        for( i in multi_players ){
-            if(multi_players.hasOwnProperty(i) && !multi_players[i].changed) {
-                multi_players[i].player.kill();
-                multi_players[i].text.destroy();
-                loaded_ids.splice(loaded_ids.indexOf(multi_players[i].id), 1);
-                multi_players.splice(i, 1);
-            }
-        }
-    }
-};
-
-Client.prototype.displayError = function(err) {
+Adler.Game.Client.prototype.displayError = function(err) {
     console.error('Web Socket Error: ', err);
 };
 
-Client.prototype.connectionClose = function(id){
+/*Adler.Client.prototype.connectionClose = function(id){
     console.log("on close:", id);
 //    loaded_ids.splice(id, 1);
-};
+};*/
+
