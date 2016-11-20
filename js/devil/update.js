@@ -1,5 +1,7 @@
 Adler.Game.Devil.prototype.update = function () {
 
+    var fired = false;
+
     this.instance.physics.arcade.collide([this.adler_weapon.bullets, this.player, this.devil], this.platforms);
     this.instance.physics.arcade.overlap(this.player, this.devil, function(){
         // instance.state.restart();
@@ -13,18 +15,12 @@ Adler.Game.Devil.prototype.update = function () {
     this.instance.camera.follow(this.player);
     this.player.body.velocity.x = 0;
 
-    if(this.player.frame == 2 && this.player.key == 'adler_hit'){
+    if(this.player.key == 'adler_hit' && this.player.frame == 2){
         this.adler_weapon.fireFrom.centerOn(this.player.x, this.player.y+10);
         this.adler_weapon.fire();
     }
 
-    if(this.key_q.isDown){
-        if(this.player.key == 'adler'){
-            this.player.loadTexture('adler_hit');
-        }
-        this.player.animations.frameRate = 120;
-        this.player.animations.play('anim');
-    }
+
     if (this.cursors.left.isDown) {
         /*  Move to the left */
         if(this.player.scale.x > 0){
@@ -57,12 +53,22 @@ Adler.Game.Devil.prototype.update = function () {
     this.player_name.x = this.player.x;
     this.player_name.y = this.player.y - 50;
 
+    if(this.key_q.isDown){
+        if(this.player.key == 'adler'){
+            this.player.loadTexture('adler_hit');
+        }
+        this.player.animations.frameRate = 120;
+        this.player.animations.play('anim');
+        fired = true;
+    }
+
     if ( this.connected /*&& (has_to_update || !player.body.touching.down) */)
         this.ws.send(
             JSON.stringify({
                 id: this.player_id,
                 x: this.player.x,
                 y: this.player.y,
+                fire: fired,
                 devil:{
                     y: this.devil !== null ? this.devil.y : 80
                 }

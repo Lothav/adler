@@ -79,6 +79,7 @@ Adler.Game.MultiPlayers.prototype = {
             }else{
                 this.weapon.fireAngle = 0;
             }
+            this.weapon.fireFrom.centerOn(this.player.x, this.player.y+10);
         }
     }
 };
@@ -132,7 +133,12 @@ Adler.Players.prototype = {
                 var adler = instance.add.sprite(p.x, p.y, 'adler');
                 adler.scale.setTo(2, 2);
                 adler.anchor.setTo(.5, .5);
-                adler.animations.add('walk', null, 10);
+                adler.animations.add('walk', null, 10).onComplete.add(function(sprite){
+                    console.log(sprite);
+                    if(sprite.key == 'adler_hit') {
+                        sprite.loadTexture('adler');
+                    }
+                });
                 return adler;
         }
     },

@@ -172,14 +172,20 @@ Adler.Game.prototype = {
                             new Adler.Game.MultiPlayers(
                                 p.id, p.name, Adler.Players.ADLER, this.player, this.instance)
                         );
-
                         this.loaded_ids.push(p.id);
                     } else {
                         for( i in this.multi_players ){
                             if( this.multi_players.hasOwnProperty(i) && this.multi_players[i].id == p.id ){
 
                                 /*  Multi Players animation  */
-                                console.log(p.x , this.multi_players[i].player.x, p.x !== this.multi_players[i].player.x);
+                                if( p.fire ){
+                                    this.multi_players[i].player.loadTexture('adler_hit');
+                                    this.multi_players[i].player.animations.play("walk");
+                                }
+                                if(this.multi_players[i].player.key == 'adler_hit' && this.multi_players[i].player.frame == 3 ){
+                                    this.multi_players[i].weapon.fire();
+                                }
+
                                 if( p.x !== this.multi_players[i].player.x ) {
 
                                     if( p.x < this.multi_players[i].player.x ){
@@ -197,7 +203,8 @@ Adler.Game.prototype = {
                                     }
                                     this.multi_players[i].player.animations.play('walk');
                                     this.multi_players[i].player.x = p.x;
-                                } else {
+
+                                } else if(this.multi_players[i].player.key != 'adler_hit'){
                                     this.multi_players[i].player.animations.stop();
                                     this.multi_players[i].player.frame = 0;
                                 }
