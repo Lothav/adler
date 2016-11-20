@@ -18,7 +18,7 @@ Adler.Game.Devil.prototype.create = function () {
     this.platforms.create( 13*(80) , 430, 'ground').body.immovable = true;
     this.platforms.create( 4*(80) , 320, 'ground').body.immovable = true;
 
-    this.player = this.instance.add.sprite(800, this.instance.world.height - 200, 'marina');
+    this.player = this.instance.add.sprite(800, this.instance.world.height - 200, 'adler');
     this.player.scale.setTo(2,2);
    
     this.instance.physics.arcade.enable(this.player);
