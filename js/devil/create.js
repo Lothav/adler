@@ -1,7 +1,7 @@
 Adler.Game.Devil.prototype.create = function () {
-    this.openConnection();
     var i;
 
+    this.openConnection();
     this.instance.physics.startSystem(Phaser.Physics.ARCADE);
     this.instance.world.setBounds(0, 0, 800*3, 600);
     for(i = 0; i < 3; i++){

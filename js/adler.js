@@ -103,7 +103,7 @@ Adler.Game.prototype = {
 
     connectionOpen : function() {
         this.connected = true;
-        var name = prompt("Digite um nome:", "Adlerito");
+        this.player_name.setText(prompt("Digite um nome:", "Adlerito"));
 
         //this.player_name.setText(name);
         this.ws.send( JSON.stringify({ name: name }) );
@@ -221,10 +221,9 @@ Adler.Game.prototype = {
     },
     openConnection : function() {
 
-        // prod:  ws://luizotavioapi.herokuapp.com
-        // dev:  ws://localhost:3000
-
-        var host = location.origin == "http://localhost" ? "ws://localhost:3000" : "ws://luizotavioapi.herokuapp.com";
+        var host = location.origin == "http://localhost"
+            ? "ws://localhost:3000"               // Dev
+            : "ws://luizotavioapi.herokuapp.com"; // Prod
 
         this.ws = new WebSocket( host );
         this.ws.onerror = this.displayError.bind(this);
