@@ -7,6 +7,7 @@ gulp.task('concat_uglify', function(cb) {
     gulp.src([
         'js/phaser.js',
         'js/adler.js',
+        'js/players.js',
         'js/multiPlayers.js',
         'js/devil/devil.js',
         'js/devil/create.js',

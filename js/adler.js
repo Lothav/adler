@@ -45,27 +45,30 @@ Adler.Game = function () {
      * */
     this._activeStage = null;
 
-    /**
-     * @property {Client} _client - Web Socket Object.
-     * */
-    this.client = null;
 
     /**
-     *
+     * @property {Number} player_id - Player id from server.
      * */
     this.player_id = null;
 
     /**
-     *
+     * @property {Phaser.Sprite} player - Player Object itself.
      * */
     this.player = null;
 
     /**
-     *
+     * @property {Phaser.Sprite} devil - Devil Object itself.
      * */
     this.devil = null;
 
+    /**
+     * @property {Array} loaded_ids - Ids from server.
+     * */
     this.loaded_ids = [];
+
+    /**
+     * @property {Array<Adler.MultiPlayers>} multi_players - Array with others players objects.
+     * */
     this.multi_players = [];
 };
 
