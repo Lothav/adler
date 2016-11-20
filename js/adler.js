@@ -170,7 +170,7 @@ Adler.Game.prototype = {
                     if( !this.loaded_ids.includes(p.id) ){
                         this.multi_players.push(
                             new Adler.Game.MultiPlayers(
-                                p.id, p.name, Adler.Players.MARINA, this.player, this.instance)
+                                p.id, p.name, Adler.Players.ADLER, this.player, this.instance)
                         );
 
                         this.loaded_ids.push(p.id);
@@ -179,20 +179,23 @@ Adler.Game.prototype = {
                             if( this.multi_players.hasOwnProperty(i) && this.multi_players[i].id == p.id ){
 
                                 /*  Multi Players animation  */
-                                if( p.x != this.multi_players[i].player.x ) {
+                                console.log(p.x , this.multi_players[i].player.x, p.x !== this.multi_players[i].player.x);
+                                if( p.x !== this.multi_players[i].player.x ) {
 
                                     if( p.x < this.multi_players[i].player.x ){
                                         /*  Move to the left */
                                         if(this.multi_players[i].player.scale.x > 0){
                                             this.multi_players[i].player.scale.x *= -1;
                                         }
+                                        this.multi_players[i].updateWeaponPos('left');
                                     } else {
                                         /*  Move to the right */
                                         if(this.multi_players[i].player.scale.x < 0){
                                             this.multi_players[i].player.scale.x *= -1;
                                         }
+                                        this.multi_players[i].updateWeaponPos('right');
                                     }
-                                    this.multi_players[i].player.animations.play('anim');
+                                    this.multi_players[i].player.animations.play('walk');
                                     this.multi_players[i].player.x = p.x;
                                 } else {
                                     this.multi_players[i].player.animations.stop();

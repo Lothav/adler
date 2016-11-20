@@ -67,6 +67,19 @@ Adler.Game.MultiPlayers.prototype = {
     updateTextPos : function(){
         this._text.x = this.player.x;
         this._text.y = this.player.y - 50;
+    },
+
+    /**
+     *
+     * */
+    updateWeaponPos: function (to) {
+        if(this.weapon !== null){
+            if(to == 'left'){
+                this.weapon.fireAngle = 180;
+            }else{
+                this.weapon.fireAngle = 0;
+            }
+        }
     }
 };
 
@@ -113,13 +126,13 @@ Adler.Players.prototype = {
                 var marina = instance.add.sprite(p.x, p.y, 'marina');
                 marina.scale.setTo(2, 2);
                 marina.anchor.setTo(.5, .5);
-                marina.animations.add('anim', null, 10);
+                marina.animations.add('walk', null, 10);
                 return marina;
             default:
                 var adler = instance.add.sprite(p.x, p.y, 'adler');
                 adler.scale.setTo(2, 2);
                 adler.anchor.setTo(.5, .5);
-                adler.animations.add('anim', null, 10);
+                adler.animations.add('walk', null, 10);
                 return adler;
         }
     },
@@ -135,7 +148,7 @@ Adler.Players.prototype = {
             default:
 
                 var weapon = instance.add.weapon(10, 'adler_weapon_projectile');
-                weapon = this.instance.add.weapon(10, 'adler_weapon_projectile');
+                weapon = instance.add.weapon(10, 'adler_weapon_projectile');
                 weapon.addBulletAnimation("explode", [5,6,7,8,9,10,11,12,13]);
 
                 weapon.bullets.children.forEach(function(bullet){

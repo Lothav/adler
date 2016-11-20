@@ -64,4 +64,6 @@ Adler.Game.Devil.prototype.create = function () {
     this.adler_weapon.bulletSpeed = 500;
     this.adler_weapon.fireRate = 500;
     this.adler_weapon.fireAngle = 0;
+    this.instance.stage.disableVisibilityChange = true;
+
 };
