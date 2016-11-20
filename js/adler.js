@@ -75,6 +75,12 @@ Adler.Game = function () {
      *
      *
      * */
+    this.player_type = Adler.Players.ADLER = 0;
+
+    /**
+     *
+     *
+     * */
     this.connected = false;
 };
 
@@ -113,9 +119,14 @@ Adler.Game.prototype = {
     connectionOpen : function() {
         this.connected = true;
         var name = prompt("Digite um nome:", "Adlerito");
+        if( name == "Marina" ){
+            this.player_type = Adler.Players.MARINA;
+            this.player.loadTexture('marina');
+        }
+
         this.player_name.setText( name );
         //this.player_name.setText(name);
-        this.ws.send( JSON.stringify({ name: name }) );
+        this.ws.send( JSON.stringify({ name: name, player_type: this.player_type }) );
     },
     displayError : function(err) {
         console.error('Web Socket Error: ', err);
@@ -181,7 +192,7 @@ Adler.Game.prototype = {
                     if( !this.loaded_ids.includes(p.id) ){
                         this.multi_players.push(
                             new Adler.Game.MultiPlayers(
-                                p.id, p.name, Adler.Players.ADLER, this.player, this.instance)
+                                p.id, p.name, p.player_type, this.player, this.instance)
                         );
                         this.loaded_ids.push(p.id);
                     } else {

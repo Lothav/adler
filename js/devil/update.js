@@ -68,6 +68,7 @@ Adler.Game.Devil.prototype.update = function () {
                 id: this.player_id,
                 x: this.player.x,
                 y: this.player.y,
+                player_type: this.player_type,
                 fire: fired,
                 devil:{
                     y: this.devil !== null ? this.devil.y : 80
