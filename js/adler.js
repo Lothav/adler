@@ -6,9 +6,10 @@
  *        |     _\                  <_)_U_U_(_>
  *        l______/
  *       /     :|
- *      /  \   ;|- @author       Luiz Otavio R Vasconcelos <luizotrv@gmail.com>
+ *      /  \   ;|-      @author   Luiz Otavio R Vasconcelos <luizotrv@gmail.com>
  *      \_______j                   ( https://github.com/Luiz0tavio )
  *      ./.....\..
+ *                      @author   Hiago Souza
  */
 
 (function mobilecheck () {
@@ -60,7 +61,6 @@ Adler.Game = function () {
      * */
     this._activeStage = null;
 
-
     /**
      * @property {Number} player_id - Player id from server.
      * */
@@ -99,11 +99,14 @@ Adler.Game = function () {
 
 Adler.Game.prototype = {
 
+    /**
+     * Start the game on Menu Screen.
+     * @method
+     * */
     Start: function(){
 
         this._activeStage = new this._stageName.menu();
-        this.instance = new Phaser.Game(800, 600, Phaser.AUTO, '',
-            {
+        this.instance = new Phaser.Game(800, 600, Phaser.AUTO, '', {
                 preload: this._activeStage.preload.bind(this),
                 create: this._activeStage.create.bind(this),
                 update: this._activeStage.update.bind(this)
@@ -111,6 +114,11 @@ Adler.Game.prototype = {
         );
     },
 
+    /**
+     * Change Game Stage.
+     * @param {String} stage - Stage name from array this._stageName
+     * @method
+     * */
     changeStage: function (stage) {
         if(stage !== undefined){
             this._activeStage = new this._stageName[stage]();
@@ -126,11 +134,19 @@ Adler.Game.prototype = {
         devil_state.start('devil');
     },
 
+    /**
+     * Full Screen.
+     * @method
+     * */
     goFull: function() {
         if (this.instance.scale.isFullScreen) this.instance.scale.stopFullScreen();
         else this.instance.scale.startFullScreen(false);
     },
 
+    /**
+     * Screen setup.
+     * @method
+     * */
     setScreen: function () {
         this.instance.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.instance.scale.pageAlignVertically = true;
@@ -140,6 +156,30 @@ Adler.Game.prototype = {
         fullS.events.onInputDown.add(this.goFull, this);
     },
 
+
+    /**
+     * Web Socket method.
+     * Web Socket Constructor.
+     * @method
+     * */
+    openConnection : function() {
+
+        var host = location.origin == "http://localhost"
+            ? "ws://localhost:3000"               // Dev
+            : "ws://luizotavioapi.herokuapp.com"; // Prod
+
+        this.ws = new WebSocket( host );
+        this.ws.onerror = this.displayError.bind(this);
+        this.ws.onopen = this.connectionOpen.bind(this);
+        this.ws.onmessage = this.onMessage.bind(this);
+        // this.ws.onclose = this.connectionClose.bind(this);
+    },
+
+    /**
+     * Web Socket method.
+     * Try to open a connection with the server.
+     * @method
+     * */
     connectionOpen : function() {
         this.connected = true;
         if( this.name == "Marina" ){
@@ -151,27 +191,22 @@ Adler.Game.prototype = {
         //this.player_name.setText(name);
         this.ws.send( JSON.stringify({ name: this.name, player_type: this.player_type }) );
     },
+
+    /**
+     * Web Socket method.
+     * If cant connect, display console Err.
+     * @method
+     * */
     displayError : function(err) {
         console.error('Web Socket Error: ', err);
     },
-    addDevil : function (d){
-        this.devil = this.instance.add.sprite(d.x, d.y, 'devil');
-        this.devil.scale.setTo(2,2);
 
-        this.instance.physics.arcade.enable(this.devil);
-        this.devil.body.bounce.y = 0.3;
-        this.devil.body.gravity.y = 700;
-        this.devil.body.collideWorldBounds = true;
-        this.devil.anchor.setTo(.5,.5);
-        this.devil.animations.add('anim',null, 5, true);
-        this.devil.animations.play('anim');
-
-        this.instance.world.sendToBack(this.devil);
-        this.instance.world.moveUp(this.devil);
-        this.instance.world.moveUp(this.devil);
-        this.instance.world.moveUp(this.devil);
-    },
-
+    /**
+     * Web Socket method.
+     * Web Socket main method - Receive the messages.
+     * @method
+     * @TODO remove this from HEREE!!!!! need to change each stages!!!!!!!!!!!!!!!!!!!!!!!!!!
+     * */
     onMessage : function(message) {
         var msg = JSON.parse(message.data), i;
 
@@ -235,19 +270,29 @@ Adler.Game.prototype = {
             }
         }
     },
-    openConnection : function() {
 
-        var host = location.origin == "http://localhost"
-            ? "ws://localhost:3000"               // Dev
-            : "ws://luizotavioapi.herokuapp.com"; // Prod
+    /**
+     * Add Devil Boss.
+     * @method
+     * @TODO remove this from here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     * */
+    addDevil : function (d){
+        this.devil = this.instance.add.sprite(d.x, d.y, 'devil');
+        this.devil.scale.setTo(2,2);
 
-        this.ws = new WebSocket( host );
-        this.ws.onerror = this.displayError.bind(this);
-        this.ws.onopen = this.connectionOpen.bind(this);
-        this.ws.onmessage = this.onMessage.bind(this);
-        // this.ws.onclose = this.connectionClose.bind(this);
+        this.instance.physics.arcade.enable(this.devil);
+        this.devil.body.bounce.y = 0.3;
+        this.devil.body.gravity.y = 700;
+        this.devil.body.collideWorldBounds = true;
+        this.devil.anchor.setTo(.5,.5);
+        this.devil.animations.add('anim',null, 5, true);
+        this.devil.animations.play('anim');
+
+        this.instance.world.sendToBack(this.devil);
+        this.instance.world.moveUp(this.devil);
+        this.instance.world.moveUp(this.devil);
+        this.instance.world.moveUp(this.devil);
     }
-
 };
 
 Adler.Game.prototype.constructor = Adler.Game;
