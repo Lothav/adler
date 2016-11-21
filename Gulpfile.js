@@ -10,10 +10,18 @@ gulp.task('concat_uglify', function(cb) {
         'js/adler.js',
         'js/players.js',
         'js/multiPlayers.js',
+
+        'js/menu/menu.js',
+        'js/menu/create.js',
+        'js/menu/preload.js',
+        'js/menu/update.js',
+
         'js/devil/devil.js',
         'js/devil/create.js',
         'js/devil/preload.js',
         'js/devil/update.js'
+
+
     ]).pipe(concat('adler.js'))
         .pipe(gulp.dest('./'))
         .pipe(uglify())
