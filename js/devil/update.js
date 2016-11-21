@@ -38,7 +38,7 @@ Adler.Game.Devil.prototype.update = function () {
         this.adler_weapon.fireAngle = 0;
         this.player.animations.play('walk');
     } else {
-        if(!this.key_q.isDown && (this.player.key != 'adler_hit') ) {
+        if(!this.key_q.isDown && (this.player.key != 'adler_hit')  && (this.player.key != 'marina_hit')) {
             this.player.animations.stop();
             this.player.frame = 0;
         }
@@ -56,6 +56,10 @@ Adler.Game.Devil.prototype.update = function () {
     if(this.key_q.isDown){
         if(this.player.key == 'adler'){
             this.player.loadTexture('adler_hit');
+        }
+        if(this.player.key == 'marina'){
+            this.player.loadTexture('marina_hit');
+            this.player.anchor.setTo(.2,.5);
         }
         this.player.animations.frameRate = 120;
         this.player.animations.play('walk');

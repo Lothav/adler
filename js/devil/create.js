@@ -40,6 +40,10 @@ Adler.Game.Devil.prototype.create = function () {
         if(this.player.key == 'adler_hit') {
             this.player.loadTexture('adler');
         }
+        if(this.player.key == 'marina_hit'){
+            this.player.loadTexture('marina');
+            this.player.anchor.setTo(.5,.5);
+        }
     }, this);
     
     /* Keyboard keys */
