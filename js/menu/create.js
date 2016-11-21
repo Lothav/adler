@@ -6,9 +6,9 @@ Adler.Game.Menu.prototype.create = function () {
     /* Screen Set */
     this.setScreen();
 
-    this.select_player = this.instance.add.graphics();
-    this.select_player.beginFill(0xFF0000, 1);
-    this.select_player.drawCircle(350, 450, 100);
+    var select_player = this.instance.add.graphics();
+    select_player.beginFill(0xFF0000, 1);
+    select_player.drawCircle(350, 450, 100);
 
     this.adler = this.instance.add.sprite(300, 400, 'adler');
     this.adler.scale.setTo(2);
@@ -17,9 +17,9 @@ Adler.Game.Menu.prototype.create = function () {
     this.adler.inputEnabled = true;
     this.adler.events.onInputDown.add(function(){
         this.player_type = Adler.Players.ADLER;
-        this.select_player.clear();
-        this.select_player.beginFill(0xFF0000, 1);
-        this.select_player.drawCircle(350, 450, 100);
+        select_player.clear();
+        select_player.beginFill(0xFF0000, 1);
+        select_player.drawCircle(350, 450, 100);
     }.bind(this));
 
 
@@ -30,9 +30,9 @@ Adler.Game.Menu.prototype.create = function () {
     this.marina.inputEnabled = true;
     this.marina.events.onInputDown.add(function(){
         this.player_type = Adler.Players.MARINA;
-        this.select_player.clear();
-        this.select_player.beginFill(0xFF0000, 1);
-        this.select_player.drawCircle(500, 450, 100);
+        select_player.clear();
+        select_player.beginFill(0xFF0000, 1);
+        select_player.drawCircle(500, 450, 100);
     }.bind(this));
 
     this.instance.add.text(100,300,"Nome:", {fill : "#fff"});
@@ -55,6 +55,10 @@ Adler.Game.Menu.prototype.create = function () {
     start.inputEnabled = true;
 
     start.events.onInputDown.add(function(){
+        this.marina.destroy();
+        this.adler.destroy();
+        delete this.marina;
+        delete this.adler;
         this.changeStage("devil");
         this.name = input.value;
     }.bind(this));
