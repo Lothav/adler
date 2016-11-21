@@ -1,5 +1,14 @@
-/**
- * @author       Luiz Otavio R Vasconcelos <luizotrv@gmail.com>
+/**         _____
+ *       __/_ ///                      /\_/\
+ *      / _/    \                     / - - \
+ *      \/_\=[o=o]                   <_  X  _>  /\_/\
+ *       \_,    __)                  /       \ <_o_o_>
+ *        |     _\                  <_)_U_U_(_>
+ *        l______/
+ *       /     :|
+ *      /  \   ;|- @author       Luiz Otavio R Vasconcelos <luizotrv@gmail.com>
+ *      \_______j                   ( https://github.com/Luiz0tavio )
+ *      ./.....\..
  */
 
 (function mobilecheck () {
@@ -27,16 +36,22 @@ Adler.Game = function () {
     this.instance = null;
 
     /**
+     * @property {String} player_name - Object name.
+     * */
+    this.player_name = null;
+
+    /**
      * @property {String} player_name - The name that will be displayed on top of player head.
      * */
-    this.player_name = "Adlerito";
+    this.name = "Adlerito";
 
     /**
      * @property {Object} _stageName - Name of the Stages on Adler Game.
      * @private
      * */
     this._stageName = {
-        devil: Adler.Devil
+        menu: Adler.Game.Menu,
+        devil: Adler.Game.Devil
     };
 
     /**
@@ -72,14 +87,12 @@ Adler.Game = function () {
     this.multi_players = [];
 
     /**
-     *
-     *
+     * @property {Number} player_type - Player type playable.
      * */
     this.player_type = Adler.Players.ADLER = 0;
 
     /**
-     *
-     *
+     * @property {Boolean} connected - Player is connect with the server.
      * */
     this.connected = false;
 };
@@ -88,27 +101,29 @@ Adler.Game.prototype = {
 
     Start: function(){
 
-        this._activeStage = new Adler.Game.Devil(this);
-
+        this._activeStage = new this._stageName.menu();
         this.instance = new Phaser.Game(800, 600, Phaser.AUTO, '',
             {
                 preload: this._activeStage.preload.bind(this),
                 create: this._activeStage.create.bind(this),
                 update: this._activeStage.update.bind(this)
-            },
-            false, false);
-
-        //this.wsMessage = this._activeStage.wsMessage;
-
+            }, false, false
+        );
     },
 
     changeStage: function (stage) {
-        this._activeStage = new this._stageName['stage']();
+        if(stage !== undefined){
+            this._activeStage = new this._stageName[stage]();
+        }
 
-        this.wsMessage = this._activeStage.wsMessage;
-        this.instance.stage.preload = this._activeStage.preload;
-        this.instance.stage.create = this._activeStage.create;
-        this.instance.stage.update = this._activeStage.update;
+        var devil_state = this.instance.state;
+        devil_state.add('devil',{
+            preload: this._activeStage.preload.bind(this),
+            create : this._activeStage.create.bind(this),
+            update: this._activeStage.update.bind(this)
+        });
+
+        devil_state.start('devil');
     },
 
     goFull: function() {
@@ -116,17 +131,25 @@ Adler.Game.prototype = {
         else this.instance.scale.startFullScreen(false);
     },
 
+    setScreen: function () {
+        this.instance.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.instance.scale.pageAlignVertically = true;
+        this.instance.scale.pageAlignHorizontally = true;
+        var fullS = this.instance.add.text(600,550,"FullScreen", {fill : "#fff"});
+        fullS.inputEnabled = true;
+        fullS.events.onInputDown.add(this.goFull, this);
+    },
+
     connectionOpen : function() {
         this.connected = true;
-        var name = prompt("Digite um nome:", "Adlerito");
-        if( name == "Marina" ){
+        if( this.name == "Marina" ){
             this.player_type = Adler.Players.MARINA;
             this.player.loadTexture('marina');
         }
 
-        this.player_name.setText( name );
+        this.player_name.setText( this.name );
         //this.player_name.setText(name);
-        this.ws.send( JSON.stringify({ name: name, player_type: this.player_type }) );
+        this.ws.send( JSON.stringify({ name: this.name, player_type: this.player_type }) );
     },
     displayError : function(err) {
         console.error('Web Socket Error: ', err);

@@ -1,6 +1,7 @@
 Adler.Game.Devil.prototype.create = function () {
     var i;
 
+    this.setScreen();
     this.openConnection();
     this.instance.physics.startSystem(Phaser.Physics.ARCADE);
     this.instance.world.setBounds(0, 0, 800*3, 600);
@@ -30,7 +31,7 @@ Adler.Game.Devil.prototype.create = function () {
     this.player.anchor.setTo(.5,.5);
     this.player.body.setSize(24, 48, 12, 0);
 
-    this.player_name = this.instance.add.text( this.player.x, this.player.y - 50, "Adlerito", { font: "14px Arial", fill: "#ff0044"});
+    this.player_name = this.instance.add.text( this.player.x, this.player.y - 50, this.player_name, { font: "14px Arial", fill: "#ff0044"});
     this.player_name.anchor.setTo(.5,.5);
 
 
@@ -44,12 +45,6 @@ Adler.Game.Devil.prototype.create = function () {
     /* Keyboard keys */
     this.cursors = this.instance.input.keyboard.createCursorKeys();
     this.key_q = this.instance.input.keyboard.addKey(Phaser.KeyCode.Q);
-
-    /* Screen Set */
-    this.instance.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-    this.instance.scale.pageAlignVertically = true;
-    this.instance.scale.pageAlignHorizontally = true;
-    this.instance.input.onDown.add(this.goFull, this);
 
     /* Adler Weapon set */
     this.adler_weapon = this.instance.add.weapon(10, 'adler_weapon_projectile');

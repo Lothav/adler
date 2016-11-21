@@ -6,6 +6,7 @@ var concat = require('gulp-concat');
 gulp.task('concat_uglify', function(cb) {
     gulp.src([
         'js/phaser.js',
+        'js/plugins/input.js',
         'js/adler.js',
         'js/players.js',
         'js/multiPlayers.js',
