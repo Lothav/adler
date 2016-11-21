@@ -6,17 +6,37 @@ Adler.Game.Menu.prototype.create = function () {
     /* Screen Set */
     this.setScreen();
 
+    this.select_player = this.instance.add.graphics();
+    this.select_player.beginFill(0xFF0000, 1);
+    this.select_player.drawCircle(350, 450, 100);
+
     this.adler = this.instance.add.sprite(300, 400, 'adler');
     this.adler.scale.setTo(2);
     this.adler.animations.add('walk', [1, 2, 3, 4, 5, 6, 7, 8], 10);
 
-    this.marina = this.instance.add.sprite(500, 400, 'marina');
+    this.adler.inputEnabled = true;
+    this.adler.events.onInputDown.add(function(){
+        this.player_type = Adler.Players.ADLER;
+        this.select_player.clear();
+        this.select_player.beginFill(0xFF0000, 1);
+        this.select_player.drawCircle(350, 450, 100);
+    }.bind(this));
+
+
+    this.marina = this.instance.add.sprite(450, 400, 'marina');
     this.marina.scale.setTo(2);
     this.marina.animations.add('walk', [1, 2, 3, 4, 5, 6, 7, 8], 10);
 
+    this.marina.inputEnabled = true;
+    this.marina.events.onInputDown.add(function(){
+        this.player_type = Adler.Players.MARINA;
+        this.select_player.clear();
+        this.select_player.beginFill(0xFF0000, 1);
+        this.select_player.drawCircle(500, 450, 100);
+    }.bind(this));
 
     this.instance.add.text(100,300,"Nome:", {fill : "#fff"});
-    this.instance.add.text(100,400,"Selecione:", {fill : "#fff"});
+    this.instance.add.text(100,430,"Selecione:", {fill : "#fff"});
 
     var input = this.instance.add.inputField(250, 300, {
         font: '18px Arial',
@@ -31,7 +51,7 @@ Adler.Game.Menu.prototype.create = function () {
     });
     input.value = "Adlerito";
 
-    var start = this.instance.add.text(650,350,"Start>", {fill : "#fff"});
+    var start = this.instance.add.text(650,400,"Start >", {fill : "#0f0"});
     start.inputEnabled = true;
 
     start.events.onInputDown.add(function(){

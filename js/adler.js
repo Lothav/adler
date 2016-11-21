@@ -182,10 +182,6 @@ Adler.Game.prototype = {
      * */
     connectionOpen : function() {
         this.connected = true;
-        if( this.name == "Marina" ){
-            this.player_type = Adler.Players.MARINA;
-            this.player.loadTexture('marina');
-        }
 
         this.player_name.setText( this.name );
         //this.player_name.setText(name);
