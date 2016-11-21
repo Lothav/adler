@@ -38,7 +38,12 @@ Adler.Players.prototype = {
                 var marina = instance.add.sprite(p.x, p.y, 'marina');
                 marina.scale.setTo(2, 2);
                 marina.anchor.setTo(.5, .5);
-                marina.animations.add('walk', null, 10);
+                marina.animations.add('walk', null, 10).onComplete.add(function(sprite){
+                    if(sprite.key == 'marina_hit') {
+                        sprite.loadTexture('marina');
+                        sprite.anchor.setTo(.5,.5);
+                    }
+                });
                 return marina;
             default:
                 var adler = instance.add.sprite(p.x, p.y, 'adler');
