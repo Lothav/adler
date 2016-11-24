@@ -57,12 +57,6 @@ Adler.Game.Devil.prototype.update = function () {
         }
     }
 
-
-    /*  Allow the player to jump if they are touching the ground. */
-    /*if (this.cursors.up.isDown && this.player.body.touching.down) {
-        this.player.body.velocity.y = -500;
-    }*/
-
     this.player_name.x = this.player.x;
     this.player_name.y = this.player.y - 50;
 
@@ -86,10 +80,7 @@ Adler.Game.Devil.prototype.update = function () {
                 x: this.player.x,
                 y: this.player.y,
                 player_type: this.player_type,
-                fire: fired,
-                devil:{
-                    y: this.devil !== null ? this.devil.y : 80
-                }
+                fire: fired
             })
         );
 };

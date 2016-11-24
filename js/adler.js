@@ -260,13 +260,18 @@ Adler.Game.prototype = {
             }.bind(this));
         }
 
-        for( i in this.multi_players ){
-            if( this.multi_players.hasOwnProperty(i) && !this.multi_players[i].online ) {
-                this.multi_players[i].destroy();
-                this.loaded_ids.splice(this.loaded_ids.indexOf(this.multi_players[i].id), 1);
-                this.multi_players.splice(i, 1);
+
+        // @TODO FIX this
+        if(msg.online_players !== undefined){
+            for( i in this.multi_players ){
+                if( this.multi_players.hasOwnProperty(i) && !this.multi_players[i].online ) {
+                    this.multi_players[i].destroy();
+                    this.loaded_ids.splice(this.loaded_ids.indexOf(this.multi_players[i].id), 1);
+                    this.multi_players.splice(i, 1);
+                }
             }
         }
+
     },
 
     /**
