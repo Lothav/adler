@@ -290,7 +290,6 @@ Adler.Game.prototype = {
         this.instance.world.moveUp(this.devil);
         this.instance.world.moveUp(this.devil);
         this.instance.world.moveUp(this.devil);
-
     }
 };
 
