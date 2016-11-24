@@ -2,11 +2,20 @@ Adler.Game.Devil.prototype.update = function () {
 
     var fired = false;
 
-    this.instance.physics.arcade.collide([this.adler_weapon.bullets, this.player, this.devil], this.platforms);
+    //this.instance.physics.arcade.collide([this.adler_weapon.bullets, this.player, this.devil], this.platforms);
     this.instance.physics.arcade.overlap(this.player, this.devil, function(){
         // instance.state.restart();
 
     });
+
+    this.instance.physics.arcade.overlap(this.player, this.platforms, function(player, platform){
+        if(player.y + 45 < platform.y){
+            this.instance.physics.arcade.collide(player, platform);
+            if (this.cursors.up.isDown) {
+                this.player.body.velocity.y = -500;
+            }
+        }
+    }.bind(this));
 
     this.instance.physics.arcade.overlap( this.devil, this.adler_weapon.bullets, function(devil, bullet){
         bullet.animations.play('explode');
@@ -50,9 +59,9 @@ Adler.Game.Devil.prototype.update = function () {
 
 
     /*  Allow the player to jump if they are touching the ground. */
-    if (this.cursors.up.isDown && this.player.body.touching.down) {
+    /*if (this.cursors.up.isDown && this.player.body.touching.down) {
         this.player.body.velocity.y = -500;
-    }
+    }*/
 
     this.player_name.x = this.player.x;
     this.player_name.y = this.player.y - 50;
