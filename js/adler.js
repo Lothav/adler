@@ -151,6 +151,7 @@ Adler.Game.prototype = {
         this.instance.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.instance.scale.pageAlignVertically = true;
         this.instance.scale.pageAlignHorizontally = true;
+        this.instance.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         var fullS = this.instance.add.text(600,550,"FullScreen", {fill : "#fff"});
         fullS.inputEnabled = true;
         fullS.events.onInputDown.add(this.goFull, this);
@@ -222,14 +223,15 @@ Adler.Game.prototype = {
                 }
                 // console.log(id, msg.devil.follow_id);
                 if (this.player_id == msg.devil.follow_id) {
-                    if (this.player.y < this.devil.y && this.devil.body.touching.down)
-                        this.devil.body.velocity.y = -500;
+                    /*if (this.player.y < this.devil.y && this.devil.body.touching.down)
+                        this.devil.body.velocity.y = -500;*/
                 } else
                     this.multi_players.forEach(function (p, indx) {
                         if (p.id == msg.devil.follow_id && p.player.y > this.devil.y && this.devil.body.touching.down)
                             this.devil.body.velocity.y = -500;
                     }.bind(this));
                 this.devil.x = msg.devil.x;
+                this.devil.y = msg.devil.y;
             }
         }
         if( msg.id !== undefined ) this.player_id = msg.id;
@@ -278,7 +280,6 @@ Adler.Game.prototype = {
 
         this.instance.physics.arcade.enable(this.devil);
         this.devil.body.bounce.y = 0.3;
-        this.devil.body.gravity.y = 700;
         this.devil.body.collideWorldBounds = true;
         this.devil.anchor.setTo(.5,.5);
         this.devil.animations.add('anim',null, 5, true);
