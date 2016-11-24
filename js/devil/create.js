@@ -4,20 +4,26 @@ Adler.Game.Devil.prototype.create = function () {
     this.setScreen();
     this.openConnection();
     this.instance.physics.startSystem(Phaser.Physics.ARCADE);
-    this.instance.world.setBounds(0, 0, 800*3, 600);
-    for(i = 0; i < 3; i++){
+    this.instance.world.setBounds(0, 0, 800*2, 600);
+    for(i = 0; i < 2; i++){
         this.instance.add.sprite(i*800, 0, 'sky');
     }
     this.platforms = this.instance.add.group();
     this.platforms.enableBody = true;
-    for(i = 0; i < 3; i++){
+    for(i = 0; i < 2; i++){
         var ground = this.platforms.create(i*800, this.instance.world.height - 64, 'ground');
         ground.scale.setTo(2, 2);
         ground.body.immovable = true;
     }
 
-    this.platforms.create( 13*(80) , 430, 'ground').body.immovable = true;
+    this.platforms.create( 0 , 460, 'ground').body.immovable = true;
+
+    this.platforms.create( 13*(80) , 400, 'ground').body.immovable = true;
     this.platforms.create( 4*(80) , 320, 'ground').body.immovable = true;
+
+    this.platforms.create( 9*(80) , 200, 'ground').body.immovable = true;
+
+    this.platforms.create( 16*(80) , 300, 'ground').body.immovable = true;
 
     var type = this.player_type == Adler.Players.MARINA ? "marina" : "adler";
     this.player = this.instance.add.sprite(800, this.instance.world.height - 200, type);
