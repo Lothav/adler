@@ -273,7 +273,7 @@ Adler.Game.prototype = {
         }
 
     },
-
+   
     /**
      * Add Devil Boss.
      * @method
