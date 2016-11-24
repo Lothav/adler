@@ -152,7 +152,7 @@ Adler.Game.prototype = {
         this.instance.scale.pageAlignVertically = true;
         this.instance.scale.pageAlignHorizontally = true;
         this.instance.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        var fullS = this.instance.add.text(600,550,"FullScreen", {fill : "#fff"});
+        var fullS = this.instance.add.text(650,550,"FullScreen",  {fill : "#fff", font: "20px Arial"});
         fullS.inputEnabled = true;
         fullS.events.onInputDown.add(this.goFull, this);
     },

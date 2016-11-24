@@ -99,6 +99,12 @@ Adler.Game.MultiPlayers.prototype = {
                 this.weapon.fire();
             }
 
+            if( p.fire && this.player.key == 'marina'){
+                this.player.loadTexture('marina_hit');
+                this.player.anchor.setTo(.2,.5);
+                this.player.animations.play("walk");
+            }
+
             if( p.x !== this.player.x ) {
 
                 if( p.x < this.player.x ){
@@ -117,7 +123,7 @@ Adler.Game.MultiPlayers.prototype = {
                 this.player.animations.play('walk');
                 this.player.x = p.x;
 
-            } else if(this.player.key != 'adler_hit'){
+            } else if(this.player.key != 'adler_hit' && this.player.key != 'marina_hit'){
                 this.player.animations.stop();
                 this.player.frame = 0;
             }

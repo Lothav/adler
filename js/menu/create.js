@@ -10,6 +10,13 @@ Adler.Game.Menu.prototype.create = function () {
     select_player.beginFill(0xFF0000, 1);
     select_player.drawCircle(350, 450, 100);
 
+    var arrow_keys = this.instance.add.sprite(50, 480, 'arrow_keys');
+    this.instance.add.text(75,560,"^ Movimentação", {fill : "#fff", font: "12px Arial"});
+
+    var key_Q = this.instance.add.sprite(200, 510, 'key_Q');
+    this.instance.add.text(210,560,"^ Ataque", {fill : "#fff", font: "12px Arial"});
+
+
     this.adler = this.instance.add.sprite(300, 400, 'adler');
     this.adler.scale.setTo(2);
     this.adler.animations.add('walk', [1, 2, 3, 4, 5, 6, 7, 8], 10);
@@ -36,7 +43,7 @@ Adler.Game.Menu.prototype.create = function () {
     }.bind(this));
 
     this.instance.add.text(100,300,"Nome:", {fill : "#fff"});
-    this.instance.add.text(100,430,"Selecione:", {fill : "#fff"});
+    this.instance.add.text(380,510,"Selecione", {fill : "#fff", font: "20px Arial"});
 
     var input = this.instance.add.inputField(250, 300, {
         font: '18px Arial',

@@ -23,22 +23,26 @@ Adler.Game.Devil.prototype.update = function () {
 
     if (this.cursors.left.isDown) {
         /*  Move to the left */
-        if(this.player.scale.x > 0){
-            this.player.scale.x *= -1;
+        if(!this.key_q.isDown && (this.player.key != 'adler_hit')  && (this.player.key != 'marina_hit')) {
+            if (this.player.scale.x > 0) {
+                this.player.scale.x *= -1;
+            }
+            this.adler_weapon.fireAngle = 180;
         }
         this.player.body.velocity.x = -150;
-        this.adler_weapon.fireAngle = 180;
         this.player.animations.play('walk');
     } else if (this.cursors.right.isDown) {
         /*  Move to the right */
-        this.player.body.velocity.x = 150;
-        if(this.player.scale.x < 0){
-            this.player.scale.x *= -1;
+        if(!this.key_q.isDown && (this.player.key != 'adler_hit')  && (this.player.key != 'marina_hit')) {
+            if(this.player.scale.x < 0){
+                this.player.scale.x *= -1;
+            }
+            this.adler_weapon.fireAngle = 0;
         }
-        this.adler_weapon.fireAngle = 0;
+        this.player.body.velocity.x = 150;
         this.player.animations.play('walk');
     } else {
-        if(!this.key_q.isDown && (this.player.key != 'adler_hit') ) {
+        if(!this.key_q.isDown && (this.player.key != 'adler_hit')  && (this.player.key != 'marina_hit')) {
             this.player.animations.stop();
             this.player.frame = 0;
         }
@@ -56,6 +60,10 @@ Adler.Game.Devil.prototype.update = function () {
     if(this.key_q.isDown){
         if(this.player.key == 'adler'){
             this.player.loadTexture('adler_hit');
+        }
+        if(this.player.key == 'marina'){
+            this.player.loadTexture('marina_hit');
+            this.player.anchor.setTo(.2,.5);
         }
         this.player.animations.frameRate = 120;
         this.player.animations.play('walk');
