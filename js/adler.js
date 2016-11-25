@@ -77,6 +77,11 @@ Adler.Game = function () {
     this.devil = null;
 
     /**
+     * @property {Phaser.Sprite} devil - Devil Object itself.
+     * */
+    this.devil_slimes = [];
+
+    /**
      * @property {Array} loaded_ids - Ids from server.
      * */
     this.loaded_ids = [];
@@ -224,7 +229,7 @@ Adler.Game.prototype = {
                 // console.log(id, msg.devil.follow_id);
                 if (this.player_id == msg.devil.follow_id) {
                     /*if (this.player.y < this.devil.y && this.devil.body.touching.down)
-                        this.devil.body.velocity.y = -500;*/
+                     this.devil.body.velocity.y = -500;*/
                 } else
                     this.multi_players.forEach(function (p, indx) {
                         if (p.id == msg.devil.follow_id && p.player.y > this.devil.y && this.devil.body.touching.down)
@@ -234,12 +239,57 @@ Adler.Game.prototype = {
                 this.devil.y = msg.devil.y;
             }
         }
+
+        if( msg.devil_slimes !== undefined ){
+
+            this.devil_slimes.forEach(function (ds, index) {
+                this.devil_slimes[index].changed = false;
+            }.bind(this));
+
+            msg.devil_slimes.forEach( function(backend_ds) {
+
+                var is_new_record = true;
+                for( var i in this.devil_slimes){
+                    if( backend_ds.id == this.devil_slimes[ i ].id ){
+                        this.devil_slimes[ i ].devil_slime.x  = backend_ds.x;
+                        this.devil_slimes[ i ].devil_slime.y  = backend_ds.y;
+                        this.devil_slimes[ i ].changed = true;
+                        is_new_record = false;
+                        break;
+                    }
+                }
+                if( is_new_record ){
+                    var devil_slime = this.instance.add.sprite(
+                        backend_ds.x, backend_ds.y, 'devil_slime');
+                    devil_slime.scale.setTo(2,2);
+                    this.instance.physics.arcade.enable( devil_slime );
+                    devil_slime.body.bounce.y = 0.3;
+                    devil_slime.anchor.setTo(.5,.5);
+                    devil_slime.animations.add('anim', null, 5);
+
+                    this.devil_slimes.push( {
+                        devil_slime : devil_slime,
+                        id : backend_ds.id,
+                        changed : true
+                    } );
+                }
+
+                for( i in this.devil_slimes) {
+                    if(!this.devil_slimes[ i ].changed){
+                        this.devil_slimes[ i ].devil_slime.kill();
+                        delete this.devil_slimes[ i ];
+                    }
+                }
+
+            }.bind(this));
+        }
+
         if( msg.id !== undefined ) this.player_id = msg.id;
 
         if(msg.online_players !== undefined )
-            for( i in this.multi_players ) 
+            for( i in this.multi_players )
                 this.multi_players[i].online = msg.online_players.includes( this.multi_players[i].id );
-        else 
+        else
             for( i in this.multi_players ) this.multi_players[i].online = false;
 
         if( undefined !== msg.players && null !== this.player_id ){
@@ -260,7 +310,6 @@ Adler.Game.prototype = {
             }.bind(this));
         }
 
-
         // @TODO FIX this
         if(msg.online_players !== undefined){
             for( i in this.multi_players ){
@@ -273,7 +322,7 @@ Adler.Game.prototype = {
         }
 
     },
-   
+
     /**
      * Add Devil Boss.
      * @method

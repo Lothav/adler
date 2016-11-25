@@ -8,6 +8,10 @@ Adler.Game.Devil.prototype.update = function () {
 
     });
 
+    this.devil_slimes.forEach(function (ds, index) {
+        this.devil_slimes[index].devil_slime.animations.play('anim');
+    }.bind(this));
+
     this.instance.physics.arcade.overlap(this.player, this.platforms, function(player, platform){
         if(player.y + 45 < platform.y){
             this.instance.physics.arcade.collide(player, platform);
