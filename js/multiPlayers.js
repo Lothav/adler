@@ -75,10 +75,12 @@ Adler.Game.MultiPlayers.prototype = {
      * */
     updateWeaponPos: function (to) {
         if(this.weapon !== null){
-            if(to == 'left'){
-                this.weapon.fireAngle = 180;
-            }else{
-                this.weapon.fireAngle = 0;
+            if(to !== null){
+                if(to == 'left'){
+                    this.weapon.fireAngle = 180;
+                }else{
+                    this.weapon.fireAngle = 0;
+                }
             }
             this.weapon.fireFrom.centerOn(this.player.x, this.player.y+10);
         }
@@ -107,18 +109,22 @@ Adler.Game.MultiPlayers.prototype = {
 
             if( p.x !== this.player.x ) {
 
-                if( p.x < this.player.x ){
-                    /*  Move to the left */
-                    if(this.player.scale.x > 0){
-                        this.player.scale.x *= -1;
+                if(this.player.key != 'adler_hit' && this.player.key != 'marina_hit'){
+                    if( p.x < this.player.x ){
+                        /*  Move to the left */
+                        if(this.player.scale.x > 0){
+                            this.player.scale.x *= -1;
+                        }
+                        this.updateWeaponPos('left');
+                    } else if( p.x > this.player.x ) {
+                        /*  Move to the right */
+                        if(this.player.scale.x < 0){
+                            this.player.scale.x *= -1;
+                        }
+                        this.updateWeaponPos('right');
                     }
-                    this.updateWeaponPos('left');
-                } else {
-                    /*  Move to the right */
-                    if(this.player.scale.x < 0){
-                        this.player.scale.x *= -1;
-                    }
-                    this.updateWeaponPos('right');
+                }else{
+                    this.updateWeaponPos(null);
                 }
                 this.player.animations.play('walk');
                 this.player.x = p.x;
@@ -126,6 +132,9 @@ Adler.Game.MultiPlayers.prototype = {
             } else if(this.player.key != 'adler_hit' && this.player.key != 'marina_hit'){
                 this.player.animations.stop();
                 this.player.frame = 0;
+                this.updateWeaponPos(null)
+            } else {
+                this.updateWeaponPos(null)
             }
             this.player.y = p.y;
             this.online = true;

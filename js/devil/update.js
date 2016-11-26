@@ -29,6 +29,17 @@ Adler.Game.Devil.prototype.update = function () {
         bullet.animations.play('explode');
     });
 
+    for(var mp in this.multi_players){
+        if(this.multi_players[mp].weapon != null){
+            this.instance.physics.arcade.overlap( this.devil, this.multi_players[mp].weapon.bullets, function(devil, bullet){
+                bullet.animations.play('explode');
+            });
+            this.instance.physics.arcade.collide( this.platforms, this.multi_players[mp].weapon.bullets, function(devil, bullet){
+                bullet.animations.play('explode');
+            });
+        }
+    }
+
     this.instance.physics.arcade.collide( this.platforms, this.adler_weapon.bullets, function(devil, bullet){
         bullet.animations.play('explode');
     });
@@ -85,7 +96,8 @@ Adler.Game.Devil.prototype.update = function () {
         fired = true;
     }
 
-    if ( this.connected /*&& (has_to_update || !player.body.touching.down) */)
+
+    if ( this.connected )
         this.ws.send(
             JSON.stringify({
                 id: this.player_id,
