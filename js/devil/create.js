@@ -4,7 +4,7 @@ Adler.Game.Devil.prototype.create = function () {
 
     this.setScreen();
     this.instance.physics.startSystem(Phaser.Physics.ARCADE);
-    this.instance.world.setBounds(0, 0, 800*2, 800);
+    this.instance.world.setBounds(0, 0, 800*2, 1000);
 
     this.background = this.instance.add.group();
 //    for(i = 0; i < 2; i++){
@@ -22,15 +22,15 @@ Adler.Game.Devil.prototype.create = function () {
     this.platforms.enableBody = true;
 
     /* Platforms */
-    this.genereteTile(100, 350, 600);
-    this.genereteTile(200, 400, 470);
-    this.genereteTile(650, 750, 550);
-    this.genereteTile(1000, 1250, 600);
-    this.genereteTile(800, 1000, 430);
-    this.genereteTile(1400, 1400, 450);
+    this.genereteTile(100, 350, 800);
+    this.genereteTile(200, 400, 670);
+    this.genereteTile(650, 750, 750);
+    this.genereteTile(1000, 1250, 800);
+    this.genereteTile(800, 1000, 630);
+    this.genereteTile(1400, 1400, 650);
 
-    this.genereteTile(500, 500, 300);
-    this.genereteTile(1200, 1200, 300);
+    this.genereteTile(500, 500, 500);
+    this.genereteTile(1200, 1200, 500);
 
 
     var type = this.player_type == Adler.Players.MARINA ? "marina" : "adler";
