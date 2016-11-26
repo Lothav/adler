@@ -102,6 +102,8 @@ Adler.Game = function () {
     this.connected = false;
 
     this.ws = null;
+
+    this.decors = null;
 };
 
 Adler.Game.prototype = {
@@ -226,10 +228,21 @@ Adler.Game.prototype = {
         this.instance.world.sendToBack(this.devil);
     },
 
-    genereteTile: function(from, to, y){
+    genereteTile: function(from, to, y, decor){
         this.platforms.create( from, y, 'tile_plat_left').body.immovable = true;
-        for(var i=from+87; i< to; i+=128){
+        var decor_img = null;
+        for(var i=from+87; i< to; i += 128){
             this.platforms.create( i, y, 'tile_plat_middle').body.immovable = true;
+            if( decor !== null ){
+                decor_img = this.decors.create(i, y, decor);
+                decor_img.y = y - decor_img.height;
+                decor = null;
+            }
+        }
+        if(decor != null){
+            decor_img = this.decors.create(i-50, y, decor);
+            decor_img.y = y - decor_img.height;
+            decor = null;
         }
         this.platforms.create( i, y, 'tile_plat_right').body.immovable = true;
         this.instance.world.sendToBack( this.platforms);

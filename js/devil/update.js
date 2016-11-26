@@ -7,6 +7,7 @@ Adler.Game.Devil.prototype.update = function () {
         // instance.state.restart();
     });
 
+    this.instance.world.sendToBack(this.decors);
     this.instance.world.sendToBack(this.platforms);
     this.instance.world.sendToBack(this.background);
 

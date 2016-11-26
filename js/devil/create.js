@@ -21,16 +21,18 @@ Adler.Game.Devil.prototype.create = function () {
     this.platforms = this.instance.add.group();
     this.platforms.enableBody = true;
 
-    /* Platforms */
-    this.genereteTile(100, 350, 800);
-    this.genereteTile(200, 400, 660);
-    this.genereteTile(650, 750, 750);
-    this.genereteTile(1000, 1250, 800);
-    this.genereteTile(800, 1000, 630);
-    this.genereteTile(1400, 1400, 650);
+    this.decors = this.instance.add.group();
+    this.decors.enableBody = false;
 
-    this.genereteTile(500, 500, 500);
-    this.genereteTile(1200, 1200, 500);
+    /* Platforms */
+    this.genereteTile(100, 350, 800,   'bush_1');
+    this.genereteTile(200, 400, 660,   'rock_1');
+    this.genereteTile(650, 750, 750,   'skull_1');
+    this.genereteTile(1000, 1250, 800, 'rock_2');
+    this.genereteTile(800, 1000, 630,  'tree_1');
+    this.genereteTile(1400, 1400, 650, 'tree_2');
+    this.genereteTile(500, 500, 500,   'warning_1');
+    this.genereteTile(1200, 1200, 500, 'tree_2');
 
 
     var type = this.player_type == Adler.Players.MARINA ? "marina" : "adler";

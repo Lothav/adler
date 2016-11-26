@@ -13,4 +13,12 @@ Adler.Game.Devil.prototype.preload = function () {
     this.instance.load.image('tile_plat_left', 'assets/devil/tiles/tile_plat_left.png');
     this.instance.load.image('tile_plat_middle', 'assets/devil/tiles/tile_plat_middle.png');
     this.instance.load.image('tile_plat_right', 'assets/devil/tiles/tile_plat_right.png');
+
+    this.instance.load.image('bush_1', 'assets/devil/tiles/decor/bush_1.png');
+    this.instance.load.image('rock_1', 'assets/devil/tiles/decor/rock_1.png');
+    this.instance.load.image('rock_2', 'assets/devil/tiles/decor/rock_2.png');
+    this.instance.load.image('skull_1','assets/devil/tiles/decor/skull_1.png');
+    this.instance.load.image('tree_1', 'assets/devil/tiles/decor/tree_1.png');
+    this.instance.load.image('tree_2', 'assets/devil/tiles/decor/tree_2.png');
+    this.instance.load.image('warning_1', 'assets/devil/tiles/decor/warning_1.png');
 };
