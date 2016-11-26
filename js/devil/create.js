@@ -28,7 +28,7 @@ Adler.Game.Devil.prototype.create = function () {
     this.genereteTile(100, 350, 800,   'bush_1');
     this.genereteTile(200, 400, 660,   'rock_1');
     this.genereteTile(650, 750, 750,   'skull_1');
-    this.genereteTile(1000, 1250, 800, 'rock_2');
+    this.genereteTile(1025, 1250, 800, 'rock_2');
     this.genereteTile(800, 1000, 630,  'tree_1');
     this.genereteTile(1400, 1400, 650, 'tree_2');
     this.genereteTile(500, 500, 500,   'warning_1');

@@ -42,17 +42,16 @@ Adler.Game.Devil.prototype.onMessage = function(message) {
                 if (backend_ds.id == this.devil_slimes[i].id) {
                     this.devil_slimes[i].devil_slime.x = backend_ds.x;
                     this.devil_slimes[i].devil_slime.y = backend_ds.y;
-
+                    this.devil_slimes[i].devil_slime.animations.play('anim');
                     this.devil_slimes[i].changed = true;
                     is_new_record = false;
                     break;
                 }
             }
             if (is_new_record) {
-                var devil_slime = this.instance.add.sprite(
-                    backend_ds.x, backend_ds.y, 'devil_slime');
+                var devil_slime = this.instance.add.sprite( backend_ds.x, backend_ds.y, 'devil_slime' );
                 devil_slime.scale.setTo(2, 2);
-                this.instance.physics.arcade.enable(devil_slime);
+                this.instance.physics.arcade.enable( devil_slime );
                 devil_slime.body.bounce.y = 0.3;
                 devil_slime.anchor.setTo(.5, .5);
                 devil_slime.animations.add('anim', null, 5, true);
@@ -63,15 +62,16 @@ Adler.Game.Devil.prototype.onMessage = function(message) {
                 });
             }
 
-            for (i in this.devil_slimes) {
-                if (!this.devil_slimes[i].changed) {
-                    this.devil_slimes[i].devil_slime.animations.stop('anim');
-                    this.devil_slimes[i].devil_slime.kill();
-                    this.devil_slimes.splice(i,1);
-                }
-            }
 
         }.bind(this));
+
+        for (i in this.devil_slimes) {
+            if (!this.devil_slimes[i].changed) {
+                this.devil_slimes[i].devil_slime.animations.stop('anim');
+                this.devil_slimes[i].devil_slime.kill();
+                this.devil_slimes.splice(i,1);
+            }
+        }
     }
 
     if (msg.id !== undefined) this.player_id = msg.id;
