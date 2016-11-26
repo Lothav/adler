@@ -1,8 +1,8 @@
 Adler.Game.Devil.prototype.create = function () {
     var i;
+    this.ws.onmessage = this._activeStage.onMessage.bind(this);
 
     this.setScreen();
-    this.openConnection();
     this.instance.physics.startSystem(Phaser.Physics.ARCADE);
     this.instance.world.setBounds(0, 0, 800*2, 600);
     for(i = 0; i < 2; i++){
@@ -37,8 +37,6 @@ Adler.Game.Devil.prototype.create = function () {
     this.player.anchor.setTo(.5,.5);
     this.player.body.setSize(24, 48, 12, 0);
 
-    this.player_name = this.instance.add.text( this.player.x, this.player.y - 50, this.player_name, { font: "14px Arial", fill: "#ff0044"});
-    this.player_name.anchor.setTo(.5,.5);
 
 
     this.player.animations.add('walk', [1, 2, 3, 4, 5, 6, 7, 8], 10)
@@ -73,5 +71,10 @@ Adler.Game.Devil.prototype.create = function () {
     this.adler_weapon.fireRate = 500;
     this.adler_weapon.fireAngle = 0;
     this.instance.stage.disableVisibilityChange = true;
+
+
+    this.player_name = this.instance.add.text( this.player.x, this.player.y - 50, this.name, { font: "14px Arial", fill: "#ff0044"});
+    this.player_name.anchor.setTo(.5,.5);
+    this.ws.send( JSON.stringify({ name: this.name, player_type: this.player_type }) );
 
 };

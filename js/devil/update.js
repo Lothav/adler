@@ -5,7 +5,6 @@ Adler.Game.Devil.prototype.update = function () {
     //this.instance.physics.arcade.collide([this.adler_weapon.bullets, this.player, this.devil], this.platforms);
     this.instance.physics.arcade.overlap(this.player, this.devil, function(){
         // instance.state.restart();
-
     });
 
     this.devil_slimes.forEach(function (ds, index) {
