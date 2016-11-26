@@ -223,12 +223,16 @@ Adler.Game.prototype = {
         this.devil.anchor.setTo(.5,.5);
         this.devil.animations.add('anim',null, 5, true);
         this.devil.animations.play('anim');
-
         this.instance.world.sendToBack(this.devil);
-        this.instance.world.moveUp(this.devil);
-        this.instance.world.moveUp(this.devil);
-        this.instance.world.moveUp(this.devil);
-        this.instance.world.moveUp(this.devil);
+    },
+
+    genereteTile: function(from, to, y){
+        this.platforms.create( from, y, 'tile_plat_left').body.immovable = true;
+        for(var i=from+87; i< to; i+=128){
+            this.platforms.create( i, y, 'tile_plat_middle').body.immovable = true;
+        }
+        this.platforms.create( i, y, 'tile_plat_right').body.immovable = true;
+        this.instance.world.sendToBack( this.platforms);
     }
 };
 

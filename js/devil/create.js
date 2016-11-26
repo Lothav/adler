@@ -5,25 +5,31 @@ Adler.Game.Devil.prototype.create = function () {
     this.setScreen();
     this.instance.physics.startSystem(Phaser.Physics.ARCADE);
     this.instance.world.setBounds(0, 0, 800*2, 600);
-    for(i = 0; i < 2; i++){
-        this.instance.add.sprite(i*800, 0, 'sky');
-    }
-    this.platforms = this.instance.add.group();
-    this.platforms.enableBody = true;
-    for(i = 0; i < 2; i++){
-        var ground = this.platforms.create(i*800, this.instance.world.height - 64, 'ground');
-        ground.scale.setTo(2, 2);
+
+    this.background = this.instance.add.group();
+//    for(i = 0; i < 2; i++){
+  //  }
+    this.background.create(0, 0, 'sky');
+
+    this.ground_group = this.instance.add.group();
+    this.ground_group.enableBody = true;
+    for(i = 0; i < 1600/128; i++){
+        var ground = this.ground_group.create(128*i, this.instance.world.height - 64, 'tile_plat_middle');
         ground.body.immovable = true;
     }
 
-    this.platforms.create( 0 , 460, 'ground').body.immovable = true;
+    this.platforms = this.instance.add.group();
+    this.platforms.enableBody = true;
 
-    this.platforms.create( 13*(80) , 400, 'ground').body.immovable = true;
-    this.platforms.create( 4*(80) , 320, 'ground').body.immovable = true;
+    this.genereteTile(0 , 650, 350);//platforms.create( 0 , 460, 'tile_middle').body.immovable = true;
+    //this.genereteTile();platforms.create( 13*(80) , 400, 'tile_middle').body.immovable = true;
+    //this.genereteTile();platforms.create( 4*(80) , 320, 'tile_middle').body.immovable = true;
+    //this.genereteTile();platforms.create( 9*(80) , 200, 'tile_middle').body.immovable = true;
+    //this.genereteTile();platforms.create( 16*(80) , 300, 'tile_middle').body.immovable = true;
 
-    this.platforms.create( 9*(80) , 200, 'ground').body.immovable = true;
+   // this.platforms.scale.setTo(0.5);
 
-    this.platforms.create( 16*(80) , 300, 'ground').body.immovable = true;
+
 
     var type = this.player_type == Adler.Players.MARINA ? "marina" : "adler";
     this.player = this.instance.add.sprite(800, this.instance.world.height - 200, type);

@@ -7,11 +7,15 @@ Adler.Game.Devil.prototype.update = function () {
         // instance.state.restart();
     });
 
+    this.instance.world.sendToBack(this.platforms);
+    this.instance.world.sendToBack(this.background);
+
+
     this.devil_slimes.forEach(function (ds, index) {
         this.devil_slimes[index].devil_slime.animations.play('anim');
     }.bind(this));
 
-    this.instance.physics.arcade.overlap(this.player, this.platforms, function(player, platform){
+    this.instance.physics.arcade.overlap(this.player, [this.platforms, this.ground_group], function(player, platform){
         if(player.y + 45 < platform.y){
             this.instance.physics.arcade.collide(player, platform);
             if (this.cursors.up.isDown) {
