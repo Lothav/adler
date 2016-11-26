@@ -23,7 +23,7 @@ Adler.Game.Devil.prototype.create = function () {
 
     /* Platforms */
     this.genereteTile(100, 350, 800);
-    this.genereteTile(200, 400, 670);
+    this.genereteTile(200, 400, 660);
     this.genereteTile(650, 750, 750);
     this.genereteTile(1000, 1250, 800);
     this.genereteTile(800, 1000, 630);

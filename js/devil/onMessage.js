@@ -42,6 +42,7 @@ Adler.Game.Devil.prototype.onMessage = function(message) {
                 if (backend_ds.id == this.devil_slimes[i].id) {
                     this.devil_slimes[i].devil_slime.x = backend_ds.x;
                     this.devil_slimes[i].devil_slime.y = backend_ds.y;
+
                     this.devil_slimes[i].changed = true;
                     is_new_record = false;
                     break;
@@ -54,9 +55,8 @@ Adler.Game.Devil.prototype.onMessage = function(message) {
                 this.instance.physics.arcade.enable(devil_slime);
                 devil_slime.body.bounce.y = 0.3;
                 devil_slime.anchor.setTo(.5, .5);
-                devil_slime.animations.add('anim', null, 5);
-
-                this.devil_slimes.push({
+                devil_slime.animations.add('anim', null, 5, true);
+                this.devil_slimes.unshift({
                     devil_slime: devil_slime,
                     id: backend_ds.id,
                     changed: true
@@ -65,8 +65,9 @@ Adler.Game.Devil.prototype.onMessage = function(message) {
 
             for (i in this.devil_slimes) {
                 if (!this.devil_slimes[i].changed) {
+                    this.devil_slimes[i].devil_slime.animations.stop('anim');
                     this.devil_slimes[i].devil_slime.kill();
-                    delete this.devil_slimes[i];
+                    this.devil_slimes.splice(i,1);
                 }
             }
 

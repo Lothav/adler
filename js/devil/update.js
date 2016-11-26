@@ -28,6 +28,10 @@ Adler.Game.Devil.prototype.update = function () {
         bullet.animations.play('explode');
     });
 
+    this.instance.physics.arcade.collide( this.platforms, this.adler_weapon.bullets, function(devil, bullet){
+        bullet.animations.play('explode');
+    });
+
     this.instance.camera.follow(this.player);
     this.player.body.velocity.x = 0;
 
