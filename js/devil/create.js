@@ -7,9 +7,9 @@ Adler.Game.Devil.prototype.create = function () {
     this.instance.world.setBounds(0, 0, 800*2, 1000);
 
     this.background = this.instance.add.group();
-//    for(i = 0; i < 2; i++){
-  //  }
     this.background.create(0, 0, 'sky');
+
+    this.createHealthBar();
 
     this.ground_group = this.instance.add.group();
     this.ground_group.enableBody = true;

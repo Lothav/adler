@@ -91,6 +91,9 @@ Adler.Game = function () {
      * */
     this.multi_players = [];
 
+    this.player_health = 300;
+    this.player_max_health = 300;
+
     /**
      * @property {Number} player_type - Player type playable.
      * */
@@ -246,6 +249,45 @@ Adler.Game.prototype = {
         }
         this.platforms.create( i, y, 'tile_plat_right').body.immovable = true;
         this.instance.world.sendToBack( this.platforms);
+    },
+    createHealthBar: function(){
+        var bmd = this.instance.add.bitmapData(300, 40);
+        bmd.ctx.beginPath();
+        bmd.ctx.rect(0, 0, 300, 80);
+        bmd.ctx.fillStyle = '#00685e';
+        bmd.ctx.fill();
+
+        this.bglife = this.instance.add.sprite(0, 0, bmd);
+        this.bglife.anchor.set(0.5);
+
+        bmd = this.instance.add.bitmapData(280, 30);
+        bmd.ctx.beginPath();
+        bmd.ctx.rect(0, 0, 300, 80);
+        bmd.ctx.fillStyle = '#00f910';
+        bmd.ctx.fill();
+
+        this.widthLife = new Phaser.Rectangle(0, 0, bmd.width, bmd.height);
+        this.totalLife = bmd.width;
+
+        this.life = this.instance.add.sprite(0, 0, bmd);
+        this.life.anchor.y = 0.5;
+        this.life.cropEnabled = true;
+        this.life.crop(this.widthLife);
+
+        this.bglife.fixedToCamera = true;
+        this.bglife.cameraOffset.setTo(250, 50);
+        this.life.fixedToCamera = true;
+        this.life.cameraOffset.setTo(110, 50);
+
+        //this.instance.time.events.loop(1500, this.cropLife, this);
+    },
+    cropLife: function(){
+        if(this.widthLife.width <= 0){
+            this.widthLife.width = this.totalLife;
+        }
+        else{
+            this.instance.add.tween(this.widthLife).to( { width: (this.widthLife.width - (this.totalLife / 10)) }, 200, Phaser.Easing.Linear.None, true);
+        }
     }
 };
 

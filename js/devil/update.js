@@ -5,15 +5,20 @@ Adler.Game.Devil.prototype.update = function () {
     //this.instance.physics.arcade.collide([this.adler_weapon.bullets, this.player, this.devil], this.platforms);
     this.instance.physics.arcade.overlap(this.player, this.devil, function(){
         // instance.state.restart();
-    });
+
+    }.bind(this));
 
     this.instance.world.sendToBack(this.decors);
     this.instance.world.sendToBack(this.platforms);
     this.instance.world.sendToBack(this.background);
 
-
     this.devil_slimes.forEach(function (ds, index) {
         this.devil_slimes[index].devil_slime.animations.play('anim');
+        this.instance.physics.arcade.overlap(this.devil_slimes[index].devil_slime, this.player, function(slime, player){
+            this.cropLife();
+            slime.kill();
+            this.life.updateCrop();
+        }.bind(this));
     }.bind(this));
 
     this.instance.physics.arcade.overlap(this.player, [this.platforms, this.ground_group], function(player, platform){
@@ -39,6 +44,8 @@ Adler.Game.Devil.prototype.update = function () {
             });
         }
     }
+
+
 
     this.instance.physics.arcade.collide( this.platforms, this.adler_weapon.bullets, function(devil, bullet){
         bullet.animations.play('explode');
