@@ -117,7 +117,7 @@ Adler.Game.prototype = {
                 preload: this._activeStage.preload.bind(this),
                 create: this._activeStage.create.bind(this),
                 update: this._activeStage.update.bind(this)
-            }, false, false
+            }, true, false
         );
         this.openConnection();
     },
