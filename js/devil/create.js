@@ -4,7 +4,7 @@ Adler.Game.Devil.prototype.create = function () {
 
     this.setScreen();
     this.instance.physics.startSystem(Phaser.Physics.ARCADE);
-    this.instance.world.setBounds(0, 0, 800*2, 600);
+    this.instance.world.setBounds(0, 0, 800*2, 800);
 
     this.background = this.instance.add.group();
 //    for(i = 0; i < 2; i++){
@@ -21,14 +21,16 @@ Adler.Game.Devil.prototype.create = function () {
     this.platforms = this.instance.add.group();
     this.platforms.enableBody = true;
 
-    this.genereteTile(0 , 650, 350);//platforms.create( 0 , 460, 'tile_middle').body.immovable = true;
-    //this.genereteTile();platforms.create( 13*(80) , 400, 'tile_middle').body.immovable = true;
-    //this.genereteTile();platforms.create( 4*(80) , 320, 'tile_middle').body.immovable = true;
-    //this.genereteTile();platforms.create( 9*(80) , 200, 'tile_middle').body.immovable = true;
-    //this.genereteTile();platforms.create( 16*(80) , 300, 'tile_middle').body.immovable = true;
-
-   // this.platforms.scale.setTo(0.5);
-
+    /* Platforms */
+    this.genereteTile(100, 350, 600);
+    this.genereteTile(200, 400, 470);
+    this.genereteTile(650, 750, 550);
+    this.genereteTile(1000, 1250, 600);
+    this.genereteTile(800, 1000, 430);
+    this.genereteTile(1400, 1400, 450);
+    
+    this.genereteTile(500, 500, 300);
+    this.genereteTile(1200, 1200, 300);
 
 
     var type = this.player_type == Adler.Players.MARINA ? "marina" : "adler";
