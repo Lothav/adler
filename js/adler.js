@@ -120,7 +120,10 @@ Adler.Game.prototype = {
         this.instance = new Phaser.Game(800, 600, Phaser.AUTO, '', {
                 preload: this._activeStage.preload.bind(this),
                 create: this._activeStage.create.bind(this),
-                update: this._activeStage.update.bind(this)
+                update: this._activeStage.update.bind(this),
+                render: function() {
+                    this.instance.debug.text(this.instance.time.fps || '--', 2, 14, "#00ff00");
+                }.bind(this)
             }, true, false
         );
         this.openConnection();
@@ -133,8 +136,8 @@ Adler.Game.prototype = {
      * */
     changeStage: function (stage) {
         /*if( !this.ws.readyState ){
-            this.openConnection();
-        }*/
+         this.openConnection();
+         }*/
         if(stage !== undefined){
             this._activeStage = new this._stageName[stage]();
         }
@@ -142,7 +145,10 @@ Adler.Game.prototype = {
         devil_state.add(stage,{
             preload: this._activeStage.preload.bind(this),
             create : this._activeStage.create.bind(this),
-            update: this._activeStage.update.bind(this)
+            update: this._activeStage.update.bind(this),
+            render: function() {
+                this.instance.debug.text(this.instance.time.fps || '--', 2, 14, "#00ff00");
+            }.bind(this)
         });
 
         devil_state.start(stage);
@@ -167,8 +173,8 @@ Adler.Game.prototype = {
         this.instance.scale.pageAlignHorizontally = true;
         this.instance.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         /*var fullS = this.instance.add.text(650,550,"FullScreen",  {fill : "#fff", font: "20px Arial"});
-        fullS.inputEnabled = true;
-        fullS.events.onInputDown.add(this.goFull, this);*/
+         fullS.inputEnabled = true;
+         fullS.events.onInputDown.add(this.goFull, this);*/
     },
 
 
@@ -287,23 +293,23 @@ Adler.Game.prototype = {
         this.bglife.cameraOffset.setTo(250, 50);
         this.life.fixedToCamera = true;
         this.life.cameraOffset.setTo(110, 50);
-
     },
     cropLife: function(){
 
-        if(this.widthLife.width <= 0){
+        if(this.widthLife.width <= 1){
             this.devil = null;
             this.ws.close();
             this.changeStage("menu");
             this.widthLife.width = this.totalLife;
         } else {
-
             var life = (this.widthLife.width - (this.totalLife / 10));
 
-            this.bmd.ctx.fillStyle = '#00ff00';
-            this.bmd.ctx.fill();
-
-            this.instance.add.tween(this.widthLife).to( { width: life }, 200, Phaser.Easing.Linear.None, true);
+            if(life < 0){
+                life = 1;
+                var fatal = this.instance.add.text(130, 45, "Fatal", { font: "13px Arial", fill: "#ff0044", align: "center" });
+                fatal.fixedToCamera = true;
+            }
+            this.instance.add.tween(this.widthLife).to( { width: life }, 1000, "Quint", true);
         }
     }
 };

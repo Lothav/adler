@@ -12,11 +12,11 @@ Adler.Game.Devil.prototype.update = function () {
     this.devil_slimes.forEach(function (ds, index) {
         this.devil_slimes[index].devil_slime.animations.play('anim');
         this.instance.physics.arcade.overlap(this.devil_slimes[index].devil_slime, this.player, function(slime, player){
-            this.cropLife();
             slime.kill();
-            this.life.updateCrop();
+            this.cropLife();
         }.bind(this));
     }.bind(this));
+    this.life.updateCrop();
 
     this.instance.physics.arcade.overlap(this.player, [this.platforms, this.ground_group], function(player, platform){
         if(player.y + 45 < platform.y){

@@ -21,4 +21,7 @@ Adler.Game.Devil.prototype.preload = function () {
     this.instance.load.image('tree_1', 'assets/devil/tiles/decor/tree_1.png');
     this.instance.load.image('tree_2', 'assets/devil/tiles/decor/tree_2.png');
     this.instance.load.image('warning_1', 'assets/devil/tiles/decor/warning_1.png');
+
+    this.instance.time.advancedTiming = true;
+
 };
