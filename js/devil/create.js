@@ -22,6 +22,8 @@ Adler.Game.Devil.prototype.create = function () {
         ground.body.immovable = true;
     }
 
+    this.instance.world.bringToTop(this.fullScreen_text);
+
     this.platforms = this.instance.add.group();
     this.platforms.enableBody = true;
 
@@ -87,9 +89,9 @@ Adler.Game.Devil.prototype.create = function () {
     this.adler_weapon.fireAngle = 0;
     this.instance.stage.disableVisibilityChange = true;
 
-
     this.player_name = this.instance.add.text( this.player.x, this.player.y - 50, this.name, { font: "14px Arial", fill: "#ff0044"});
     this.player_name.anchor.setTo(.5,.5);
     this.ws.send( JSON.stringify({ name: this.name, player_type: this.player_type }) );
 
+    this.instance.world.bringToTop(this.fullScreen_text);
 };

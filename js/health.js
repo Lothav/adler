@@ -19,8 +19,9 @@ Health.prototype.cropLife = function(){
     } else {
         var life = Math.round(this.total * this._life_perc);
         if( this._life_perc <= 0.01 ){
-            var fatal = this.prototype.instance.add.text(110, 43, "Fatal", { font: "11px Arial", fill: "#ff0044", align: "center" });
+            var fatal = this.prototype.instance.add.text(130, 43, "Fatal", { font: "11px Arial", fill: "#ff0044", align: "center" });
             fatal.fixedToCamera = true;
+            life = 1;
             setInterval(function(){
                 if(this._clear) return;
                 fatal.visible = !fatal.visible;
@@ -62,14 +63,13 @@ Health.prototype.createHealthBar = function(x, y, w, h, flip){
 
     bglife.fixedToCamera = true;
 
-    if(flip){
+    if( flip ){
         life.scale.x *= -1;
         bglife.anchor.x = -0.5;
         bglife.scale.x *= -1;
         bglife.cameraOffset.setTo(x + 160, y);
-    }else{
+    } else {
         bglife.cameraOffset.setTo(x + (w/2) - (h/4), y);
-
     }
     life.fixedToCamera = true;
     life.cameraOffset.setTo(x, y);

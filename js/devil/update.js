@@ -1,33 +1,33 @@
-var marina_hited = false;
+// prevent Marina hit more than 1 time per animation
+var hited = false;
 
 Adler.Game.Devil.prototype.update = function () {
-    var fired = false;
 
-    if(this.player_type == Adler.Players.MARINA){
-        this.instance.physics.arcade.overlap(this.player, this.devil,function(){
+    var fired = false;
+    if( this.player_type == Adler.Players.MARINA ){
+        this.instance.physics.arcade.overlap(this.player, this.devil, function(){
             if(this.player.key == "marina_hit" && this.player.frame == 4 && !hited){
                 this.devil_life.doDamage();
                 this.devil_life.cropLife();
-                marina_hited = true;
+                hited = true;
             }
-        }.bind(this));
-        if(this.player.frame != 4){
-            marina_hited = false;
-        }
+        }.bind(this) );
     }
+
+
 
     this.instance.world.sendToBack(this.decors);
     this.instance.world.sendToBack(this.platforms);
     this.instance.world.sendToBack(this.background);
 
-    this.devil_slimes.forEach(function (ds, index) {
+    this.devil_slimes.forEach( function (ds, index) {
         this.devil_slimes[index].devil_slime.animations.play('anim');
         this.instance.physics.arcade.overlap(this.devil_slimes[index].devil_slime, this.player, function(slime, player){
             slime.kill();
             this.player_life.doDamage();
             this.player_life.cropLife();
-        }.bind(this));
-    }.bind(this));
+        }.bind(this) );
+    }.bind(this) );
 
     this.devil_life.life.updateCrop();
     this.player_life.life.updateCrop();
@@ -43,8 +43,12 @@ Adler.Game.Devil.prototype.update = function () {
     }.bind(this));
 
     this.instance.physics.arcade.overlap( this.devil, this.adler_weapon.bullets, function(devil, bullet){
-        bullet.animations.play('explode');
-        this.devil_life.cropLife();
+        if( !hited ) {
+            bullet.animations.play('explode');
+            this.devil_life.doDamage();
+            this.devil_life.cropLife();
+            hited = true;
+        }
     }.bind(this));
 
     for(var mp in this.multi_players){
@@ -82,7 +86,7 @@ Adler.Game.Devil.prototype.update = function () {
             this.adler_weapon.fireAngle = 180;
         }
         this.player.body.velocity.x = -150;
-        this.player.animations.play('walk');
+        this.player.animations.play('walk',10);
     } else if (this.cursors.right.isDown) {
         /*  Move to the right */
         if(!this.key_q.isDown && (this.player.key != 'adler_hit')  && (this.player.key != 'marina_hit')) {
@@ -92,7 +96,7 @@ Adler.Game.Devil.prototype.update = function () {
             this.adler_weapon.fireAngle = 0;
         }
         this.player.body.velocity.x = 150;
-        this.player.animations.play('walk');
+        this.player.animations.play('walk',10);
     } else {
         if(!this.key_q.isDown && (this.player.key != 'adler_hit')  && (this.player.key != 'marina_hit')) {
             this.player.animations.stop();
@@ -106,26 +110,31 @@ Adler.Game.Devil.prototype.update = function () {
     if(this.key_q.isDown){
         if(this.player.key == 'adler'){
             this.player.loadTexture('adler_hit');
+            this.player.animations.play('walk');
         }
         if(this.player.key == 'marina'){
             this.player.loadTexture('marina_hit');
+            this.player.animations.play('walk' ); // pass second param to increases marina hit speed
             this.player.anchor.setTo(.2,.5);
             this.player.body.setSize(24, 48, 45, 0);
         }
-        this.player.animations.frameRate = 120;
-        this.player.animations.play('walk');
         fired = true;
     }
 
+    if(this.player.frame == 0){
+        hited = false;
+    }
 
-    if ( this.ws.readyState == WebSocket.OPEN )
+    if ( this.ws.readyState == WebSocket.OPEN ) {
         this.ws.send(
             JSON.stringify({
                 id: this.player_id,
                 x: this.player.x,
                 y: this.player.y,
                 player_type: this.player_type,
-                fire: fired
+                fire: fired,
+                life_perc: this.life_perc
             })
         );
+    }
 };

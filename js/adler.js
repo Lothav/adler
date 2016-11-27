@@ -172,9 +172,10 @@ Adler.Game.prototype = {
         this.instance.scale.pageAlignVertically = true;
         this.instance.scale.pageAlignHorizontally = true;
         this.instance.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        /*var fullS = this.instance.add.text(650,550,"FullScreen",  {fill : "#fff", font: "20px Arial"});
-         fullS.inputEnabled = true;
-         fullS.events.onInputDown.add(this.goFull, this);*/
+        this.fullScreen_text = this.instance.add.text(650,550,"FullScreen",  {fill : "#fff", font: "20px Arial"});
+        this.fullScreen_text.inputEnabled = true;
+        this.fullScreen_text.events.onInputDown.add(this.goFull, this);
+        this.fullScreen_text.fixedToCamera = true;
     },
 
 
@@ -200,9 +201,7 @@ Adler.Game.prototype = {
      * Try to open a connection with the server.
      * @method
      * */
-    connectionOpen : function() {
-        //this.connected = true;
-    },
+    connectionOpen : function() {},
 
     /**
      * Web Socket method.
@@ -220,9 +219,7 @@ Adler.Game.prototype = {
      * */
     onMessage : function(){},
 
-    connectionClose: function(){
-        //this.connected = false;
-    },
+    connectionClose: function(){},
 
     /**
      * Add Devil Boss.
