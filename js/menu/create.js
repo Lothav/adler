@@ -39,7 +39,7 @@ Adler.Game.Menu.prototype.create = function () {
 
     }.bind(this));
 
-    this.instance.add.text(100,300,"Nome:", {fill : "#fff"});
+    this.instance.add.text(100,300,"Nome:", {fill : "#fff", font:"35px Monaco"});
     this.instance.add.text(380,510,"Selecione", {fill : "#fff", font: "20px Arial"});
 
     var input = this.instance.add.inputField(250, 300, {
@@ -55,7 +55,7 @@ Adler.Game.Menu.prototype.create = function () {
     });
     input.value = "Adlerito";
 
-    this.start_button = this.instance.add.text(650,400,"Start >", {fill : "#f00"});
+    this.start_button = this.instance.add.text(650,400,"Start >", { font:"25px Monaco", fill : "#f00"});
     this.start_button.inputEnabled = false;
 
     this.start_button.events.onInputDown.add(function(){

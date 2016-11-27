@@ -1,23 +1,30 @@
-var Health = function(adler_inheritance){
+var Health = function(adler_inheritance, type, life_perc){
     this.prototype = adler_inheritance;
     this.widthLife = null;
-    this.totalLife = 200;
     this.life = null;
+    this.total = null;
+    this.type = type;
+    this._life_perc = life_perc;
+    this._clear = false;
 };
 
 Health.prototype.cropLife = function(){
 
-    if(this.widthLife.width <= 3){
+    if( this._life_perc <= 0 && this.type != 'devil' ){
         this.prototype.devil = null;
+        this._clear = true;
         this.prototype.ws.close();
         this.prototype.changeStage("menu");
-        this.widthLife.width = this.totalLife;
+        this._life_perc = 1;
     } else {
-        var life = (this.widthLife.width - (this.totalLife / 10));
-        if(life <= 3){
-            life = 3;
-            var fatal = this.prototype.instance.add.text(130, 43, "Fatal", { font: "11px Arial", fill: "#ff0044", align: "center" });
+        var life = Math.round(this.total * this._life_perc);
+        if( this._life_perc <= 0.01 ){
+            var fatal = this.prototype.instance.add.text(110, 43, "Fatal", { font: "11px Arial", fill: "#ff0044", align: "center" });
             fatal.fixedToCamera = true;
+            setInterval(function(){
+                if(this._clear) return;
+                fatal.visible = !fatal.visible;
+            }.bind(this),200);
         }
         this.prototype.instance.add.tween(this.widthLife).to( { width: life }, 1000, "Quint", true);
     }
@@ -45,7 +52,7 @@ Health.prototype.createHealthBar = function(x, y, w, h, flip){
     bmd.ctx.fill();
 
     this.widthLife = new Phaser.Rectangle(0, 0, bmd.width, bmd.height);
-    this.totalLife = bmd.width;
+    this.total = bmd.width;
 
     var life = this.prototype.instance.add.sprite(0, 0, bmd);
     life.anchor.y = 0.5;
@@ -68,4 +75,8 @@ Health.prototype.createHealthBar = function(x, y, w, h, flip){
     life.cameraOffset.setTo(x, y);
 
     this.life = life;
+};
+
+Health.prototype.doDamage = function () {
+    this._life_perc -= 0.1;
 };

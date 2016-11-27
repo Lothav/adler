@@ -1,13 +1,19 @@
-Adler.Game.Devil.prototype.update = function () {
+var marina_hited = false;
 
+Adler.Game.Devil.prototype.update = function () {
     var fired = false;
 
     if(this.player_type == Adler.Players.MARINA){
         this.instance.physics.arcade.overlap(this.player, this.devil,function(){
-            if(this.player.key == "marina_hit" && this.player.frame == 4){
+            if(this.player.key == "marina_hit" && this.player.frame == 4 && !hited){
+                this.devil_life.doDamage();
                 this.devil_life.cropLife();
+                marina_hited = true;
             }
         }.bind(this));
+        if(this.player.frame != 4){
+            marina_hited = false;
+        }
     }
 
     this.instance.world.sendToBack(this.decors);
@@ -18,6 +24,7 @@ Adler.Game.Devil.prototype.update = function () {
         this.devil_slimes[index].devil_slime.animations.play('anim');
         this.instance.physics.arcade.overlap(this.devil_slimes[index].devil_slime, this.player, function(slime, player){
             slime.kill();
+            this.player_life.doDamage();
             this.player_life.cropLife();
         }.bind(this));
     }.bind(this));

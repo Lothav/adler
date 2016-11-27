@@ -36,6 +36,8 @@ Adler.Game.MultiPlayers = function (id, name, type, p, instance) {
      * @private
      * */
     this._text = this.getText(instance);
+
+    this._life = new Health(this, type);
 };
 
 Adler.Game.MultiPlayers.prototype = {
