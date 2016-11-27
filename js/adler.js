@@ -102,7 +102,6 @@ Adler.Game = function () {
     /**
      * @property {Boolean} connected - Player is connect with the server.
      * */
-    this.connected = false;
 
     this.ws = null;
 
@@ -133,18 +132,20 @@ Adler.Game.prototype = {
      * @method
      * */
     changeStage: function (stage) {
+        /*if( !this.ws.readyState ){
+            this.openConnection();
+        }*/
         if(stage !== undefined){
             this._activeStage = new this._stageName[stage]();
         }
-
         var devil_state = this.instance.state;
-        devil_state.add('devil',{
+        devil_state.add(stage,{
             preload: this._activeStage.preload.bind(this),
             create : this._activeStage.create.bind(this),
             update: this._activeStage.update.bind(this)
         });
 
-        devil_state.start('devil');
+        devil_state.start(stage);
     },
 
     /**
@@ -185,7 +186,7 @@ Adler.Game.prototype = {
         this.ws = new WebSocket( host );
         this.ws.onerror = this.displayError.bind(this);
         this.ws.onopen = this.connectionOpen.bind(this);
-        // this.ws.onclose = this.connectionClose.bind(this);
+        this.ws.onclose = this.connectionClose.bind(this);
     },
 
     /**
@@ -194,7 +195,7 @@ Adler.Game.prototype = {
      * @method
      * */
     connectionOpen : function() {
-        this.connected = true;
+        //this.connected = true;
     },
 
     /**
@@ -212,6 +213,10 @@ Adler.Game.prototype = {
      * @method
      * */
     onMessage : function(){},
+
+    connectionClose: function(){
+        //this.connected = false;
+    },
 
     /**
      * Add Devil Boss.
@@ -288,7 +293,8 @@ Adler.Game.prototype = {
 
         if(this.widthLife.width <= 0){
             this.devil = null;
-            this.instance.state.restart();
+            this.ws.close();
+            this.changeStage("menu");
             this.widthLife.width = this.totalLife;
         } else {
 

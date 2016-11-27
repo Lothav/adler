@@ -3,12 +3,13 @@ Adler.Game.Menu.prototype.create = function () {
     /* Plugins */
     this.instance.add.plugin(Fabrique.Plugins.InputField);
 
+    this.ws.onmessage = this._activeStage.onMessage.bind(this);
+
     /* Screen Set */
     this.setScreen();
 
-    var select_player = this.instance.add.graphics();
-    select_player.beginFill(0xFF0000, 1);
-    select_player.drawCircle(350, 450, 100);
+    this.select_player = this.instance.add.graphics();
+    this.select_player.beginFill(0xFF0000, 1);
 
     var arrow_keys = this.instance.add.sprite(50, 480, 'arrow_keys');
     this.instance.add.text(75,560,"^ Movimentação", {fill : "#fff", font: "12px Arial"});
@@ -24,9 +25,7 @@ Adler.Game.Menu.prototype.create = function () {
     this.adler.inputEnabled = true;
     this.adler.events.onInputDown.add(function(){
         this.player_type = Adler.Players.ADLER;
-        select_player.clear();
-        select_player.beginFill(0xFF0000, 1);
-        select_player.drawCircle(350, 450, 100);
+
     }.bind(this));
 
 
@@ -37,9 +36,7 @@ Adler.Game.Menu.prototype.create = function () {
     this.marina.inputEnabled = true;
     this.marina.events.onInputDown.add(function(){
         this.player_type = Adler.Players.MARINA;
-        select_player.clear();
-        select_player.beginFill(0xFF0000, 1);
-        select_player.drawCircle(500, 450, 100);
+
     }.bind(this));
 
     this.instance.add.text(100,300,"Nome:", {fill : "#fff"});
@@ -58,10 +55,10 @@ Adler.Game.Menu.prototype.create = function () {
     });
     input.value = "Adlerito";
 
-    var start = this.instance.add.text(650,400,"Start >", {fill : "#0f0"});
-    start.inputEnabled = true;
+    this.start_button = this.instance.add.text(650,400,"Start >", {fill : "#f00"});
+    this.start_button.inputEnabled = false;
 
-    start.events.onInputDown.add(function(){
+    this.start_button.events.onInputDown.add(function(){
         this.marina.destroy();
         this.adler.destroy();
         delete this.marina;

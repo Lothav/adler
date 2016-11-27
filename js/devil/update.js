@@ -101,7 +101,7 @@ Adler.Game.Devil.prototype.update = function () {
     }
 
 
-    if ( this.connected )
+    if ( this.ws.readyState == WebSocket.OPEN )
         this.ws.send(
             JSON.stringify({
                 id: this.player_id,
