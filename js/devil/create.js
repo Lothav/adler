@@ -60,6 +60,7 @@ Adler.Game.Devil.prototype.create = function () {
         }
         if(this.player.key == 'marina_hit'){
             this.player.loadTexture('marina');
+            this.player.body.setSize(24, 48, 12, 0);
             this.player.anchor.setTo(.5,.5);
         }
     }, this);

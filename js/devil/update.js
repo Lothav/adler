@@ -2,8 +2,13 @@ Adler.Game.Devil.prototype.update = function () {
 
     var fired = false;
 
-    //this.instance.physics.arcade.collide([this.adler_weapon.bullets, this.player, this.devil], this.platforms);
-
+    if(this.player_type == Adler.Players.MARINA){
+        this.instance.physics.arcade.overlap(this.player, this.devil,function(){
+            if(this.player.key == "marina_hit" && this.player.frame == 4){
+                this.devil_life.cropLife();
+            }
+        }.bind(this));
+    }
 
     this.instance.world.sendToBack(this.decors);
     this.instance.world.sendToBack(this.platforms);
@@ -32,7 +37,8 @@ Adler.Game.Devil.prototype.update = function () {
 
     this.instance.physics.arcade.overlap( this.devil, this.adler_weapon.bullets, function(devil, bullet){
         bullet.animations.play('explode');
-    });
+        this.devil_life.cropLife();
+    }.bind(this));
 
     for(var mp in this.multi_players){
         if(this.multi_players[mp].weapon != null){
@@ -97,6 +103,7 @@ Adler.Game.Devil.prototype.update = function () {
         if(this.player.key == 'marina'){
             this.player.loadTexture('marina_hit');
             this.player.anchor.setTo(.2,.5);
+            this.player.body.setSize(24, 48, 45, 0);
         }
         this.player.animations.frameRate = 120;
         this.player.animations.play('walk');
