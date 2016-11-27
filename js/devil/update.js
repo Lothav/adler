@@ -3,10 +3,7 @@ Adler.Game.Devil.prototype.update = function () {
     var fired = false;
 
     //this.instance.physics.arcade.collide([this.adler_weapon.bullets, this.player, this.devil], this.platforms);
-    this.instance.physics.arcade.overlap(this.player, this.devil, function(){
-        // instance.state.restart();
 
-    }.bind(this));
 
     this.instance.world.sendToBack(this.decors);
     this.instance.world.sendToBack(this.platforms);

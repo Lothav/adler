@@ -287,6 +287,7 @@ Adler.Game.prototype = {
     cropLife: function(){
 
         if(this.widthLife.width <= 0){
+            this.instance.state.restart();
             this.widthLife.width = this.totalLife;
         } else {
 
