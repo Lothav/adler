@@ -8,6 +8,7 @@ gulp.task('concat_uglify', function(cb) {
         'js/phaser.js',
         'js/plugins/input.js',
         'js/adler.js',
+        'js/health.js',
         'js/players.js',
         'js/multiPlayers.js',
 

@@ -9,7 +9,11 @@ Adler.Game.Devil.prototype.create = function () {
     this.background = this.instance.add.group();
     this.background.create(0, 0, 'sky');
 
-    this.createHealthBar();
+    this.devil_life = (new Health(this)) ;
+    this.devil_life.createHealthBar(700, 50, 300, 40, true);
+    this.player_life = (new Health(this));
+    this.player_life.createHealthBar(110, 50, 200, 30, false);
+
 
     this.ground_group = this.instance.add.group();
     this.ground_group.enableBody = true;

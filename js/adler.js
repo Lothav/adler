@@ -260,59 +260,7 @@ Adler.Game.prototype = {
         }
         this.platforms.create( i, y, 'tile_plat_right').body.immovable = true;
         this.instance.world.sendToBack( this.platforms);
-    },
-    createHealthBar: function(){
-        this.bmd = this.instance.add.bitmapData(300, 40);
-        this.bmd.ctx.beginPath();
-        this.bmd.ctx.rect(0, 0, 300, 80);
-        this.bmd.ctx.fillStyle = '#333333';
-        this.bmd.ctx.fill();
-
-        this.bglife = this.instance.add.sprite(0, 0, this.bmd);
-        this.bglife.anchor.set(0.5);
-
-        this.bmd = this.instance.add.bitmapData(280, 30);
-        this.bmd.ctx.beginPath();
-        this.bmd.ctx.rect(0, 0, 300, 80);
-        var grad = this.bmd.ctx.createLinearGradient(0,0,200,0);
-        grad.addColorStop(0,"red");
-        grad.addColorStop(0.5,"yellow");
-        grad.addColorStop(1,"green");
-        this.bmd.ctx.fillStyle = grad;
-        this.bmd.ctx.fill();
-
-        this.widthLife = new Phaser.Rectangle(0, 0, this.bmd.width, this.bmd.height);
-        this.totalLife = this.bmd.width;
-
-        this.life = this.instance.add.sprite(0, 0, this.bmd);
-        this.life.anchor.y = 0.5;
-        this.life.cropEnabled = true;
-        this.life.crop(this.widthLife);
-
-        this.bglife.fixedToCamera = true;
-        this.bglife.cameraOffset.setTo(250, 50);
-        this.life.fixedToCamera = true;
-        this.life.cameraOffset.setTo(110, 50);
-    },
-    cropLife: function(){
-
-        if(this.widthLife.width <= 1){
-            this.devil = null;
-            this.ws.close();
-            this.changeStage("menu");
-            this.widthLife.width = this.totalLife;
-        } else {
-            var life = (this.widthLife.width - (this.totalLife / 10));
-
-            if(life < 0){
-                life = 1;
-                var fatal = this.instance.add.text(130, 45, "Fatal", { font: "13px Arial", fill: "#ff0044", align: "center" });
-                fatal.fixedToCamera = true;
-            }
-            this.instance.add.tween(this.widthLife).to( { width: life }, 1000, "Quint", true);
-        }
     }
 };
 
 Adler.Game.prototype.constructor = Adler.Game;
-
