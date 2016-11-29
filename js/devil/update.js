@@ -1,20 +1,17 @@
 // prevent Marina hit more than 1 time per animation
-var hited = false;
-
+var hit_count = 0;
 Adler.Game.Devil.prototype.update = function () {
 
     var fired = false;
     if( this.player_type == Adler.Players.MARINA ){
         this.instance.physics.arcade.overlap(this.player, this.devil, function(){
-            if(this.player.key == "marina_hit" && this.player.frame == 4 && !hited){
+            if(this.player.key == "marina_hit" && this.player.frame == 4 && !hit_count){
                 this.devil_life.doDamage();
                 this.devil_life.cropLife();
-                hited = true;
+                hit_count++;
             }
         }.bind(this) );
     }
-
-
 
     this.instance.world.sendToBack(this.decors);
     this.instance.world.sendToBack(this.platforms);
@@ -43,15 +40,16 @@ Adler.Game.Devil.prototype.update = function () {
     }.bind(this));
 
     this.instance.physics.arcade.overlap( this.devil, this.adler_weapon.bullets, function(devil, bullet){
-        if( !hited ) {
+        if( !hit_count ) {
             bullet.animations.play('explode');
             this.devil_life.doDamage();
             this.devil_life.cropLife();
-            hited = true;
+            hit_count++;
         }
     }.bind(this));
 
     for(var mp in this.multi_players){
+        this.multi_players[mp].mp_life.life.updateCrop();
         if(this.multi_players[mp].weapon != null){
             this.instance.physics.arcade.overlap( this.devil, this.multi_players[mp].weapon.bullets, function(devil, bullet){
                 bullet.animations.play('explode');
@@ -121,11 +119,14 @@ Adler.Game.Devil.prototype.update = function () {
         fired = true;
     }
 
-    if(this.player.frame == 0){
-        hited = false;
+    if( hit_count ){
+        hit_count++;
+        if(hit_count == 20){
+            hit_count = 0;
+        }
     }
 
-    if ( this.ws.readyState == WebSocket.OPEN ) {
+    if( this.ws.readyState == WebSocket.OPEN ) {
         this.ws.send(
             JSON.stringify({
                 id: this.player_id,
@@ -133,7 +134,7 @@ Adler.Game.Devil.prototype.update = function () {
                 y: this.player.y,
                 player_type: this.player_type,
                 fire: fired,
-                life_perc: this.life_perc
+                life_perc: this.player_life.getLifePerc()
             })
         );
     }

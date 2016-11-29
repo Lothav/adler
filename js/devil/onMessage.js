@@ -88,7 +88,7 @@ Adler.Game.Devil.prototype.onMessage = function(message) {
                 if (!this.loaded_ids.includes(p.id)) {
                     this.multi_players.push(
                         new Adler.Game.MultiPlayers(
-                            p.id, p.name, p.player_type, this.player, this.instance)
+                            p.id, p.name, p.player_type, p.life_perc, this)
                     );
                     this.loaded_ids.push(p.id);
                 } else {

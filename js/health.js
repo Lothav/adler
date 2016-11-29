@@ -80,3 +80,13 @@ Health.prototype.createHealthBar = function(x, y, w, h, flip){
 Health.prototype.doDamage = function () {
     this._life_perc -= 0.1;
 };
+
+Health.prototype.updateLifePerc = function(life_perc){
+    this._life_perc = life_perc;
+};
+
+Health.prototype.getLifePerc = function(){
+    return this._life_perc;
+};
+
+Health.prototype.constructor = Health;

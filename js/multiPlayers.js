@@ -3,7 +3,7 @@
  * (except the player that you are playing)
  * @constructor
  * */
-Adler.Game.MultiPlayers = function (id, name, type, p, instance) {
+Adler.Game.MultiPlayers = function (id, name, type, life_perc, ins) {
     /**
      * @property {Number} id - Player id.
      * */
@@ -20,7 +20,7 @@ Adler.Game.MultiPlayers = function (id, name, type, p, instance) {
     this.online = true;
 
 
-    var player_obj = new Adler.Players(instance, type, p);
+    var player_obj = new Adler.Players(ins.instance, type, ins.player);
     /**
      * @property {Phaser.Sprite} player - Phaser Sprite new object.
      * */
@@ -35,9 +35,12 @@ Adler.Game.MultiPlayers = function (id, name, type, p, instance) {
      * @property {Phaser.Text} _text - The text that will be displayed as name head.
      * @private
      * */
-    this._text = this.getText(instance);
+    this._text = this.getText(ins.instance);
 
-    this._life = new Health(this, type);
+    this.life_perc = life_perc;
+
+    this.mp_life = new Health(ins, type, life_perc);
+    this.mp_life.createHealthBar(110, 120, 170, 20, false);
 };
 
 Adler.Game.MultiPlayers.prototype = {
@@ -141,6 +144,8 @@ Adler.Game.MultiPlayers.prototype = {
             this.player.y = p.y;
             this.online = true;
             this.updateTextPos();
+            this.mp_life.updateLifePerc(p.life_perc);
+            this.mp_life.cropLife();
         }
     }
 };

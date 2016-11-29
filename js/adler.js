@@ -91,9 +91,6 @@ Adler.Game = function () {
      * */
     this.multi_players = [];
 
-    this.player_health = 300;
-    this.player_max_health = 300;
-
     /**
      * @property {Number} player_type - Player type playable.
      * */
@@ -135,9 +132,7 @@ Adler.Game.prototype = {
      * @method
      * */
     changeStage: function (stage) {
-        /*if( !this.ws.readyState ){
-         this.openConnection();
-         }*/
+
         if(stage !== undefined){
             this._activeStage = new this._stageName[stage]();
         }
