@@ -2,6 +2,8 @@
 var hit_count = 0;
 Adler.Game.Devil.prototype.update = function () {
 
+    var slime_killed = [];
+
     var fired = false;
     if( this.player_type == Adler.Players.MARINA ){
         this.instance.physics.arcade.overlap(this.player, this.devil, function(){
@@ -19,10 +21,14 @@ Adler.Game.Devil.prototype.update = function () {
 
     this.devil_slimes.forEach( function (ds, index) {
         this.devil_slimes[index].devil_slime.animations.play('anim');
-        this.instance.physics.arcade.overlap(this.devil_slimes[index].devil_slime, this.player, function(slime, player){
-            slime.kill();
-            this.player_life.doDamage();
-            this.player_life.cropLife();
+        this.instance.physics.arcade.overlap(this.devil_slimes[index].devil_slime, this.player, function(slime){
+            if(slime.key == 'devil_slime'){
+                slime_killed.push(this.devil_slimes[index].id);
+                slime.loadTexture('devil_slime_explode');
+                slime.animations.play('anim', 20);
+                this.player_life.doDamage();
+                this.player_life.cropLife();
+            }
         }.bind(this) );
     }.bind(this) );
 
@@ -134,7 +140,8 @@ Adler.Game.Devil.prototype.update = function () {
                 y: this.player.y,
                 player_type: this.player_type,
                 fire: fired,
-                life_perc: this.player_life.getLifePerc()
+                life_perc: this.player_life.getLifePerc(),
+                slime_killed : slime_killed
             })
         );
     }

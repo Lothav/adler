@@ -54,22 +54,25 @@ Adler.Game.Devil.prototype.onMessage = function(message) {
                 this.instance.physics.arcade.enable( devil_slime );
                 devil_slime.body.bounce.y = 0.3;
                 devil_slime.anchor.setTo(.5, .5);
-                devil_slime.animations.add('anim', null, 5, true);
+                devil_slime.animations.add('anim', null, 5).onComplete.add(function(slime){
+                    if(slime.key == 'devil_slime_explode'){
+                        slime.kill();
+                    }
+                }.bind(this));
                 this.devil_slimes.unshift({
                     devil_slime: devil_slime,
                     id: backend_ds.id,
                     changed: true
                 });
             }
-
-
         }.bind(this));
-
         for (i in this.devil_slimes) {
             if (!this.devil_slimes[i].changed) {
-                this.devil_slimes[i].devil_slime.animations.stop('anim');
-                this.devil_slimes[i].devil_slime.kill();
-                this.devil_slimes.splice(i,1);
+                if(this.devil_slimes[i].devil_slime.key != 'devil_slime_explode'){
+                    this.devil_slimes[i].devil_slime.loadTexture('devil_slime_explode');
+                    this.devil_slimes[i].devil_slime.animations.play('anim', 20);
+                    this.devil_slimes.splice(i, 1);
+                }
             }
         }
     }

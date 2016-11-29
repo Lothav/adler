@@ -14,8 +14,8 @@ Health.prototype.cropLife = function(){
         this.prototype.devil = null;
         this._clear = true;
         this.prototype.ws.close();
-        this.prototype.changeStage("menu");
         this._life_perc = 1;
+        this.prototype.changeStage("menu");
     } else {
         var life = Math.round(this.total * this._life_perc);
         if( this._life_perc <= 0.01 ){
