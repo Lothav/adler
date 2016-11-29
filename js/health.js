@@ -19,13 +19,16 @@ Health.prototype.cropLife = function(){
     } else {
         var life = Math.round(this.total * this._life_perc);
         if( this._life_perc <= 0.01 ){
-            var fatal = this.prototype.instance.add.text(130, 43, "Fatal", { font: "11px Arial", fill: "#ff0044", align: "center" });
-            fatal.fixedToCamera = true;
+            
+            if(this.type != 'devil'){
+                var fatal = this.prototype.instance.add.text(130, 43, "Fatal", { font: "11px Arial", fill: "#ff0044", align: "center" });
+                fatal.fixedToCamera = true;
+                setInterval(function(){
+                    if(this._clear) return;
+                    fatal.visible = !fatal.visible;
+                }.bind(this),200);
+            }
             life = 1;
-            setInterval(function(){
-                if(this._clear) return;
-                fatal.visible = !fatal.visible;
-            }.bind(this),200);
         }
         this.prototype.instance.add.tween(this.widthLife).to( { width: life }, 1000, "Quint", true);
     }
