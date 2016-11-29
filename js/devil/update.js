@@ -23,8 +23,9 @@ Adler.Game.Devil.prototype.update = function () {
         this.devil_slimes[index].devil_slime.animations.play('anim');
         this.instance.physics.arcade.overlap(this.devil_slimes[index].devil_slime, this.player, function(slime){
             if(slime.key == 'devil_slime'){
-                slime_killed.push(this.devil_slimes[index].id);
                 slime.loadTexture('devil_slime_explode');
+                console.log(this.devil_slimes[index].id);
+                slime_killed.push(this.devil_slimes[index].id);
                 slime.animations.play('anim', 20);
                 this.player_life.doDamage();
                 this.player_life.cropLife();

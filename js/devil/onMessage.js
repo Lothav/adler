@@ -40,6 +40,17 @@ Adler.Game.Devil.prototype.onMessage = function(message) {
             var is_new_record = true;
             for (var i in this.devil_slimes) {
                 if (backend_ds.id == this.devil_slimes[i].id) {
+                    if( backend_ds.x < this.devil_slimes[i].devil_slime.x ){
+                        /*  Move to the left */
+                        if(this.devil_slimes[i].devil_slime.scale.x < 0){
+                            this.devil_slimes[i].devil_slime.scale.x *= -1;
+                        }
+                    } else if( backend_ds.x > this.devil_slimes[i].devil_slime.x ){
+                        /*  Move to the right */
+                        if(this.devil_slimes[i].devil_slime.scale.x > 0){
+                            this.devil_slimes[i].devil_slime.scale.x *= -1;
+                        }
+                    }
                     this.devil_slimes[i].devil_slime.x = backend_ds.x;
                     this.devil_slimes[i].devil_slime.y = backend_ds.y;
                     this.devil_slimes[i].devil_slime.animations.play('anim');
@@ -53,12 +64,14 @@ Adler.Game.Devil.prototype.onMessage = function(message) {
                 devil_slime.scale.setTo(2, 2);
                 this.instance.physics.arcade.enable( devil_slime );
                 devil_slime.body.bounce.y = 0.3;
+                devil_slime.id = backend_ds.id;
                 devil_slime.anchor.setTo(.5, .5);
-                devil_slime.animations.add('anim', null, 5).onComplete.add(function(slime){
-                    if(slime.key == 'devil_slime_explode'){
+                devil_slime.body.setSize(20, 24, 13, 0);
+                devil_slime.animations.add('anim', null, 5).onComplete.add( function(slime){
+                    if( slime.key == 'devil_slime_explode' ){
                         slime.kill();
                     }
-                }.bind(this));
+                }.bind(this) );
                 this.devil_slimes.unshift({
                     devil_slime: devil_slime,
                     id: backend_ds.id,
@@ -68,11 +81,11 @@ Adler.Game.Devil.prototype.onMessage = function(message) {
         }.bind(this));
         for (i in this.devil_slimes) {
             if (!this.devil_slimes[i].changed) {
-                if(this.devil_slimes[i].devil_slime.key != 'devil_slime_explode'){
+                if(this.devil_slimes[i].devil_slime.alive){
                     this.devil_slimes[i].devil_slime.loadTexture('devil_slime_explode');
                     this.devil_slimes[i].devil_slime.animations.play('anim', 20);
-                    this.devil_slimes.splice(i, 1);
                 }
+                this.devil_slimes.splice(i, 1);
             }
         }
     }
