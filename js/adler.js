@@ -183,7 +183,7 @@ Adler.Game.prototype = {
 
         var host = location.origin == "http://localhost"
             ? "ws://localhost:3000"               // Dev
-            : "ws://luizotavioapi.herokuapp.com"; // Prod
+            : "wss://luizotavioapi.herokuapp.com"; // Prod
 
         this.ws = new WebSocket( host );
         this.ws.onerror = this.displayError.bind(this);
