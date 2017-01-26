@@ -9,7 +9,7 @@ Adler.Game.Menu.prototype.create = function () {
     this.setScreen();
 
     this.select_player = this.instance.add.graphics();
-    this.select_player.beginFill(0xFF0000, 1);
+    this.select_player.beginFill(0xE22612, 1);
 
     var arrow_keys = this.instance.add.sprite(50, 480, 'arrow_keys');
     this.instance.add.text(75,560,"^ Movimentação", {fill : "#fff", font: "12px Arial"});

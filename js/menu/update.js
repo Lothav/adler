@@ -3,14 +3,14 @@ Adler.Game.Menu.prototype.update = function () {
         this.marina.frame = 0;
         this.adler.animations.play('walk');
         this.select_player.clear();
-        this.select_player.beginFill(0xFF0000, 1);
+        this.select_player.beginFill(0xE22612, 1);
         this.select_player.drawCircle(350, 450, 100);
     }
     else {
         this.adler.frame = 0;
         this.marina.animations.play('walk');
         this.select_player.clear();
-        this.select_player.beginFill(0xFF0000, 1);
+        this.select_player.beginFill(0xE22612, 1);
         this.select_player.drawCircle(500, 450, 100);
     }
 
