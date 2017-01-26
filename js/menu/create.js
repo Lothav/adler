@@ -12,10 +12,10 @@ Adler.Game.Menu.prototype.create = function () {
     this.select_player.beginFill(0xE22612, 1);
 
     var arrow_keys = this.instance.add.sprite(50, 480, 'arrow_keys');
-    this.instance.add.text(75,560,"^ Movimentação", {fill : "#fff", font: "12px Arial"});
+    this.instance.add.text(75,560,"^ Movimentação", {fill : "#E22612", font: "12px Arial"});
 
     var key_Q = this.instance.add.sprite(200, 510, 'key_Q');
-    this.instance.add.text(210,560,"^ Ataque", {fill : "#fff", font: "12px Arial"});
+    this.instance.add.text(210,560,"^ Ataque", {fill : "#E22612", font: "12px Arial"});
 
 
     this.adler = this.instance.add.sprite(300, 400, 'adler');
@@ -39,8 +39,8 @@ Adler.Game.Menu.prototype.create = function () {
 
     }.bind(this));
 
-    this.instance.add.text(100,300,"Nome:", {fill : "#fff", font:"35px Monaco"});
-    this.instance.add.text(380,510,"Selecione", {fill : "#fff", font: "20px Arial"});
+    this.instance.add.text(175,301,"Nick", {fill : "#E22612", font:"25px Monaco"});
+    this.instance.add.text(380,510,"Selecione", {fill : "#E22612", font: "20px Arial"});
 
     var input = this.instance.add.inputField(250, 300, {
         font: '18px Arial',
@@ -56,6 +56,7 @@ Adler.Game.Menu.prototype.create = function () {
     input.value = "Adlerito";
 
     this.start_button = this.instance.add.text(650,400,"Start >", { font:"25px Monaco", fill : "#E22612"});
+    this.start_button_mensage = this.instance.add.text(650,425,"(conectando...)", { font:"10px Monaco", fill : "#E22612"});
     this.start_button.inputEnabled = false;
 
     this.start_button.events.onInputDown.add(function(){

@@ -18,7 +18,9 @@ Adler.Game.Menu.prototype.update = function () {
     if(this.ws.readyState == WebSocket.OPEN){
         this.start_button.inputEnabled = true;
         this.start_button.addColor('#0f0',0);
+        this.start_button_mensage.visible = false;
     } else {
         if(this.ws.readyState == WebSocket.CLOSED) this.openConnection();
+        this.start_button_mensage.visible = true;
     }
 };
