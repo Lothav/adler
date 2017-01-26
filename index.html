@@ -26,14 +26,34 @@
     <!--script type="text/javascript" src="js/devil/wsMessage.js"></script-->
 
     <style type="text/css">
-        body{
+        body {
+            position: relative;
             margin: 0;
             background-size: cover;
             background-image: url("./assets/background.gif");
             height: 100vh;
             overflow: hidden;
         }
+        .adler-logo {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: calc(50vh - 300px);
+            z-index: -1;
+        }
+        .adler-logo img {
+            width: 100%;
+            max-width: 800px;
+        }
+        @media(max-width: 1215px){
+            .adler-logo {
+                top: calc(50vw - 400px);
+            }
+        }
     </style>
+    <div class="adler-logo">
+        <img src="assets/adler_word_glitter.gif" alt="">
+    </div>
     <script>
         window.onload = function(){
             (new Adler.Game()).Start();

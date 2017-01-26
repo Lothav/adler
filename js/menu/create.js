@@ -55,7 +55,7 @@ Adler.Game.Menu.prototype.create = function () {
     });
     input.value = "Adlerito";
 
-    this.start_button = this.instance.add.text(650,400,"Start >", { font:"25px Monaco", fill : "#f00"});
+    this.start_button = this.instance.add.text(650,400,"Start >", { font:"25px Monaco", fill : "#E22612"});
     this.start_button.inputEnabled = false;
 
     this.start_button.events.onInputDown.add(function(){
